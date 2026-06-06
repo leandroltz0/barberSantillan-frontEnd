@@ -951,6 +951,7 @@ section {
 #certificacion,
 #contacto {
   background: var(--bg);
+  margin-bottom: 2rem;
 }
 .section-bridge {
   position: absolute;

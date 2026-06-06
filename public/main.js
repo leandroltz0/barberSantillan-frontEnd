@@ -448,21 +448,39 @@
   if (certVisual && !('ontouchstart' in window)) {
     var frame = certVisual.querySelector('.cert-frame');
     var maxTilt = 12;
-    var shrink = 0.6;
-    certVisual.addEventListener('mousemove', function(e) {
-      var rect = certVisual.getBoundingClientRect();
-      var cx = rect.left + rect.width / 2;
-      var cy = rect.top + rect.height / 2;
-      var dx = (e.clientX - cx) / (rect.width / 2);
-      var dy = (e.clientY - cy) / (rect.height / 2);
-      var tiltX = -dy * maxTilt;
-      var tiltY = dx * maxTilt;
-      frame.style.transform = 'perspective(1200px) rotateX(' + tiltX.toFixed(1) + 'deg) rotateY(' + tiltY.toFixed(1) + 'deg) translateZ(20px) scale(1.01)';
-      frame.style.boxShadow = '0 0 60px rgba(201,168,76,.18), 0 20px 60px rgba(0,0,0,.4)';
+    var tiltTimer;
+    
+    certVisual.addEventListener('mouseenter', function() {
+      frame.style.transition = 'transform 0.15s ease-out, box-shadow 0.15s ease-out';
+      clearTimeout(tiltTimer);
+      tiltTimer = setTimeout(function() {
+        frame.style.transition = 'none'; // Remove transition during continuous move
+      }, 150);
     });
+
+    certVisual.addEventListener('mousemove', function(e) {
+      requestAnimationFrame(function() {
+        var rect = certVisual.getBoundingClientRect();
+        var cx = rect.left + rect.width / 2;
+        var cy = rect.top + rect.height / 2;
+        var dx = (e.clientX - cx) / (rect.width / 2);
+        var dy = (e.clientY - cy) / (rect.height / 2);
+        var tiltX = -dy * maxTilt;
+        var tiltY = dx * maxTilt;
+        frame.style.transform = 'perspective(1200px) rotateX(' + tiltX.toFixed(1) + 'deg) rotateY(' + tiltY.toFixed(1) + 'deg) translateZ(20px) scale(1.01)';
+        frame.style.boxShadow = '0 0 60px rgba(201,168,76,.18), 0 20px 60px rgba(0,0,0,.4)';
+      });
+    });
+
     certVisual.addEventListener('mouseleave', function() {
+      clearTimeout(tiltTimer);
+      frame.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease';
       frame.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0) scale(1)';
       frame.style.boxShadow = '0 0 40px rgba(201,168,76,.08)';
+      
+      tiltTimer = setTimeout(function() {
+        frame.style.transition = '';
+      }, 500);
     });
   }
 
