@@ -1701,6 +1701,12 @@ section {
   border-left: 2px solid rgba(201,168,76,0.4);
   padding-left: 8px;
 }
+@media (min-width: 768px) {
+  .vf-feat-label {
+    font-size: 11px;
+    margin-bottom: 18px;
+  }
+}
 .vf-feat-list {
   list-style: none;
   padding: 0;
@@ -1708,6 +1714,11 @@ section {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+@media (min-width: 768px) {
+  .vf-feat-list {
+    gap: 6px;
+  }
 }
 .vf-feat-list li {
   font-family: "DM Sans", sans-serif;
@@ -1717,6 +1728,12 @@ section {
   position: relative;
   padding-left: 18px;
   opacity: 0.85;
+}
+@media (min-width: 768px) {
+  .vf-feat-list li {
+    font-size: 17px;
+    padding-left: 22px;
+  }
 }
 .vf-feat-list li::before {
   content: "—";
