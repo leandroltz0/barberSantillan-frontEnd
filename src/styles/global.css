@@ -1229,32 +1229,43 @@ section {
   .about-collage {
     width: 100%;
     max-width: 100%;
+    margin-bottom: 40px;
   }
   .collage-inner {
-    height: 300px;
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: 1 / 1.15;
     overflow: hidden;
   }
+  .collage-ph-1, .collage-ph-2, .collage-ph-3 {
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+  }
   .collage-ph-1 {
-    width: 62%;
-    height: 82%;
-    padding: 10px;
+    width: 65%;
+    top: 0;
+    left: 0;
+    padding: 12px;
+    z-index: 2;
   }
   .collage-ph-2 {
-    top: 40px;
-    width: 46%;
-    height: 40%;
+    width: 45%;
+    top: 20%;
+    right: 0;
+    z-index: 1;
   }
   .collage-ph-3 {
-    bottom: 6px;
-    right: 4px;
-    width: 34%;
-    height: 24%;
+    width: 58%;
+    bottom: 0;
+    right: 12%;
+    z-index: 3;
   }
   .collage-frame {
-    top: 8px;
-    left: 8px;
-    width: calc(62% - 8px);
-    height: calc(100% - 16px);
+    top: 12px;
+    left: 12px;
+    width: calc(65% - 12px);
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
   }
 }
 @media (min-width: 768px) {
