@@ -1645,7 +1645,7 @@ section {
   background: var(--surface);
   border: 1px solid var(--border-subtle);
   border-top: 3px solid rgba(201, 168, 76, 0.4);
-  padding: 32px 28px;
+  padding: 28px 24px 24px;
   position: relative;
   overflow: hidden;
   cursor: default;
@@ -1659,58 +1659,71 @@ section {
 }
 .vf-card-top {
   display: flex;
-  gap: 20px;
-  align-items: flex-start;
+  gap: 28px;
+  align-items: center;
 }
 .vf-card-left {
-  width: 45%;
+  width: 38%;
   flex-shrink: 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 .vf-card-name {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 22px;
+  font-size: 26px;
   color: var(--cream);
-  margin-bottom: 16px;
   font-weight: 500;
+  line-height: 1;
 }
 .vf-card-left svg {
   width: 100%;
-  max-width: 130px;
+  max-width: 160px;
   height: auto;
   display: block;
   margin: 0 auto;
+  filter: drop-shadow(0 0 12px rgba(201,168,76,0.08));
 }
 .vf-card-right {
-  width: 55%;
+  flex: 1;
+  min-width: 0;
 }
 .vf-feat-label {
   font-family: "DM Sans", sans-serif;
   font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-weight: 600;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 8px;
+  margin-bottom: 14px;
+  border-left: 2px solid rgba(201,168,76,0.4);
+  padding-left: 8px;
 }
 .vf-feat-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 .vf-feat-list li {
   font-family: "DM Sans", sans-serif;
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 2;
+  font-size: 15px;
+  color: var(--cream);
+  line-height: 1.75;
   position: relative;
-  padding-left: 14px;
+  padding-left: 18px;
+  opacity: 0.85;
 }
 .vf-feat-list li::before {
   content: "—";
   position: absolute;
   left: 0;
   color: var(--gold);
+  opacity: 0.7;
 }
 .vf-card-divider {
   width: 100%;
@@ -1721,17 +1734,19 @@ section {
 .vf-cut-label {
   font-family: "DM Sans", sans-serif;
   font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-weight: 600;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 8px;
+  border-left: 2px solid rgba(201,168,76,0.4);
+  padding-left: 8px;
 }
 .vf-cut-desc {
   font-family: "DM Sans", sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.75;
 }
 .vf-expand-btn {
   font-family: "DM Sans", sans-serif;
@@ -2384,8 +2399,11 @@ section {
   line-height: 1.7;
 }
 #visagismoOverlay .visagismo-grid {
-  max-width: 1100px;
+  max-width: 900px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* === CORTES OVERLAY (standalone — only on button click) === */
