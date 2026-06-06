@@ -1,22 +1,156 @@
 ---
+
 ---
+
 <section id="por-que-elegirnos" class="section-padding">
   <div class="section-bridge top dark-to-surface"></div>
   <div class="container">
     <div class="why-grid">
       <div class="why-video" id="whyVideo">
-        <button class="why-play" aria-label="Reproducir video"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"></polygon></svg></button>
+        <button class="why-play" aria-label="Reproducir video"
+          ><svg viewBox="0 0 24 24"
+            ><polygon points="8,5 19,12 8,19"></polygon></svg
+          ></button
+        >
         <span class="why-video-label">SANTILLÁN EN ACCIÓN</span>
       </div>
       <div class="why-right" id="whyRight">
-        <h2 class="why-heading">La mejor experiencia de corte para todos los clientes.</h2>
+        <h2 class="why-heading">
+          La mejor experiencia de corte para todos los clientes.
+        </h2>
         <div class="why-features" id="whyFeatures">
-          <div class="why-feat-item"><i class="ph-thin ph-clock why-feature-icon"></i><div class="why-feature-label">EXPERIENCIA</div><div class="why-feature-text">Años perfeccionando cada corte</div></div>
-          <div class="why-feat-item"><i class="ph-thin ph-user-circle why-feature-icon"></i><div class="why-feature-label">CERTIFICADO</div><div class="why-feature-text">Barbero profesional certificado</div></div>
-          <div class="why-feat-item"><i class="ph-thin ph-camera why-feature-icon"></i><div class="why-feature-label">ESTILO PROPIO</div><div class="why-feature-text">Resultados instagrameables</div></div>
-          <div class="why-feat-item"><i class="ph-thin ph-check-circle why-feature-icon"></i><div class="why-feature-label">CALIDAD</div><div class="why-feature-text">Satisfacción garantizada en cada visita</div></div>
+          <div class="why-feat-item">
+            <i class="ph-thin ph-clock why-feature-icon"></i><div
+              class="why-feature-label"
+            >
+              EXPERIENCIA
+            </div><div class="why-feature-text">
+              Años perfeccionando cada corte
+            </div>
+          </div>
+          <div class="why-feat-item">
+            <i class="ph-thin ph-user-circle why-feature-icon"></i><div
+              class="why-feature-label"
+            >
+              CERTIFICADO
+            </div><div class="why-feature-text">
+              Barbero profesional certificado
+            </div>
+          </div>
+          <div class="why-feat-item">
+            <i class="ph-thin ph-camera why-feature-icon"></i><div
+              class="why-feature-label"
+            >
+              ESTILO PROPIO
+            </div><div class="why-feature-text">Resultados instagrameables</div>
+          </div>
+          <div class="why-feat-item">
+            <i class="ph-thin ph-check-circle why-feature-icon"></i><div
+              class="why-feature-label"
+            >
+              CALIDAD
+            </div><div class="why-feature-text">
+              Satisfacción garantizada en cada visita
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+<style>
+  #por-que-elegirnos {
+    background: var(--surface2);
+  }
+  .why-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .why-video {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+  }
+  .why-play {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    border: none;
+  }
+  .why-play:hover {
+    transform: scale(1.08);
+  }
+  .why-play svg {
+    width: 20px;
+    height: 20px;
+    fill: #0d0d0d;
+    margin-left: 2px;
+  }
+  .why-video-label {
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .why-heading {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(32px, 4vw, 44px);
+    color: var(--cream);
+    margin-bottom: 32px;
+  }
+  .why-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .why-feature-icon {
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 6px;
+    display: block;
+    line-height: 1;
+  }
+  .why-feature-label {
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .why-feature-text {
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    color: var(--cream);
+  }
+  @media (min-width: 768px) {
+    .why-grid {
+      flex-direction: row;
+      align-items: center;
+    }
+    .why-video {
+      flex: 1;
+      max-width: 50%;
+    }
+    .why-right {
+      flex: 1;
+    }
+  }
+</style>

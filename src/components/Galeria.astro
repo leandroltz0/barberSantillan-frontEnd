@@ -28,3 +28,70 @@
     </div>
   </div>
 </section>
+<style>
+  #galeria { background: var(--bg); margin-bottom: 2rem; }
+  .gallery-header { margin-bottom: 32px; }
+  .gallery-heading {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(38px, 5vw, 56px);
+    color: var(--cream);
+    margin-top: 8px;
+  }
+  .gallery-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .gallery-filters button {
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 0;
+  }
+  .gallery-filters button.active,
+  .gallery-filters button:hover { color: var(--gold); border-color: var(--gold); background: rgba(201,168,76,0.06); }
+  .gallery-masonry { column-count: 2; column-gap: 10px; }
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--surface);
+  }
+  .gallery-item:hover { transform: scale(1.04); }
+  .gallery-item-inner { width: 100%; position: relative; }
+  .gallery-item-inner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    transition: background 0.3s ease;
+  }
+  .gallery-item:hover .gallery-item-inner::after { background: rgba(0,0,0,0.6); }
+  .gallery-item-ph { width: 100%; display: block; background: var(--surface); }
+  .gallery-item-ph.portrait { aspect-ratio: 3/4; }
+  .gallery-item-ph.square { aspect-ratio: 1/1; }
+  .gallery-item-ph.landscape { aspect-ratio: 4/3; }
+  .gallery-item-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 2;
+  }
+  .gallery-item:hover .gallery-item-label { opacity: 1; transform: translateY(0); }
+  @media (min-width: 1024px) { .gallery-masonry { column-count: 3; } }
+</style>

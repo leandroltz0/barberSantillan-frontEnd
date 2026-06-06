@@ -521,3 +521,45 @@ function toggleVisagismo(btn) {
   btn.textContent = expanded ? 'Ocultar ' : 'Ver cortes ';
   if (arrow) btn.appendChild(arrow);
 }
+
+// ---- Review Modal Functions ----
+window.openReviewModal = function() {
+  var modal = document.getElementById('reviewModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    // Trigger reflow
+    modal.offsetHeight;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeReviewModal = function() {
+  var modal = document.getElementById('reviewModal');
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function() {
+      modal.style.display = 'none';
+    }, 400);
+  }
+};
+
+window.submitReview = function(e) {
+  e.preventDefault();
+  var form = document.getElementById('reviewForm');
+  var success = document.getElementById('reviewSuccess');
+  if (form && success) {
+    form.style.display = 'none';
+    success.style.display = 'block';
+    setTimeout(function() {
+      closeReviewModal();
+      // Reset form after closing
+      setTimeout(function() {
+        form.reset();
+        form.style.display = 'block';
+        success.style.display = 'none';
+      }, 400);
+    }, 2000);
+  }
+};

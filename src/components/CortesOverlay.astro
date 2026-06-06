@@ -30,3 +30,97 @@
     </div>
   </div>
 </section>
+<style>
+  #cortes {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 99999; background: var(--bg); display: none; opacity: 0;
+    overflow: hidden; flex-direction: column;
+  }
+  #cortes.open { display: flex; opacity: 1; }
+  .cortes-header-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px var(--pad-m); flex-shrink: 0; border-bottom: 1px solid var(--border-subtle);
+  }
+  .cortes-header-bar .header-logo { font-family: "Cormorant Garamond", Georgia, serif; font-size: 18px; letter-spacing: 0.15em; color: var(--cream); }
+  .cortes-header-bar .header-logo-underline { width: 60%; height: 1px; background: var(--gold); margin: 2px auto 0; }
+  .cortes-overlay-close {
+    background: none; border: none; color: var(--muted); font-size: 26px; cursor: pointer;
+    transition: color 0.3s ease, transform 0.4s ease;
+    font-family: "DM Sans", sans-serif; line-height: 1; padding: 6px;
+  }
+  .cortes-overlay-close:hover { color: var(--cream); transform: rotate(90deg); }
+  .cortes-sticky {
+    position: relative; flex: 1; display: flex; align-items: center;
+    overflow-x: auto; overflow-y: hidden; scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .cortes-sticky::-webkit-scrollbar { display: none; }
+  .cortes-track { display: flex; gap: 0; padding: 0 var(--pad-d); flex-shrink: 0; }
+  .cortes-card {
+    flex-shrink: 0; width: 420px; height: 560px; margin-right: 24px;
+    position: relative; overflow: hidden; background: var(--surface);
+    transition: transform 0.6s cubic-bezier(0.23,1,0.32,1), box-shadow 0.6s ease;
+  }
+  .cortes-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(201,168,76,0.06); }
+  .cortes-card::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%);
+    pointer-events: none; z-index: 1; opacity: 0; transition: opacity 0.5s ease;
+  }
+  .cortes-card:hover::after { opacity: 1; }
+  .cortes-card .cortes-card-img-placeholder {
+    width: 100%; height: 100%; background: linear-gradient(145deg, #1e1e1e, #141414);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cortes-card .cortes-card-img-placeholder svg { width: 40px; height: 40px; opacity: 0.07; }
+  .cortes-card-end {
+    flex-shrink: 0; width: 500px; height: 560px; margin-right: 24px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: linear-gradient(145deg, #111, #0d0d0d);
+    border: 1px solid rgba(201,168,76,0.15); position: relative; overflow: hidden;
+  }
+  .cortes-card-end::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cortes-end-text {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(32px, 4vw, 42px); color: var(--cream);
+    text-align: center; line-height: 1.4; max-width: 360px; position: relative;
+  }
+  .cortes-end-text .gold { color: var(--gold); }
+  .cortes-end-underline { width: 80px; height: 1px; background: var(--gold); margin: 24px auto 36px; opacity: 0.6; }
+  .cortes-end-ok {
+    font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase; background: var(--gold);
+    color: #0d0d0d; padding: 14px 36px; border: none; cursor: pointer;
+    position: relative; overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.4s ease;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .cortes-end-ok:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 40px rgba(201,168,76,0.4), 0 0 80px rgba(201,168,76,0.1); }
+  .cortes-end-ok::after {
+    content: ""; position: absolute; top: 0; left: -150%; width: 150%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: skewX(-20deg); pointer-events: none; transition: left 0.7s cubic-bezier(0.23,1,0.32,1);
+  }
+  .cortes-end-ok:hover::after { left: 150%; }
+  .cortes-end-hint {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    font-family: "DM Sans", sans-serif; font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(136,136,136,0.4);
+    display: flex; align-items: center; gap: 8px;
+    animation: cortesHint 2s ease-in-out infinite; pointer-events: none; z-index: 2;
+  }
+  .cortes-end-hint svg { width: 14px; height: 14px; fill: rgba(136,136,136,0.4); }
+  @media (min-width: 768px) { .cortes-header-bar { padding: 20px var(--pad-d); } }
+  @media (max-width: 767px) {
+    .cortes-track { padding: 0 var(--pad-m); }
+    .cortes-card { width: 300px; height: 440px; margin-right: 16px; }
+    .cortes-card-end { width: 340px; height: 440px; margin-right: 16px; }
+    .cortes-end-ok { padding: 12px 24px; font-size: 11px; }
+    .cortes-end-text { font-size: 28px; }
+    .cortes-end-hint { display: none; }
+  }
+</style>

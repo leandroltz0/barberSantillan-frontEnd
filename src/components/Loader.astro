@@ -5,3 +5,65 @@
   <div class="loader-underline"></div>
   <div class="loader-sub">MORENO · BUENOS AIRES</div>
 </div>
+<style>
+  #loader {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background: #0d0d0d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  #loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .loader-logo {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 42px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--cream);
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .loader-logo.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .loader-underline {
+    width: 60%;
+    height: 1px;
+    background: var(--gold);
+    margin: 8px auto 12px;
+    opacity: 0;
+    transition: opacity 0.6s ease 0.2s;
+  }
+  .loader-logo.visible + .loader-underline {
+    opacity: 1;
+  }
+  .loader-sub {
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+    opacity: 0;
+    transition: opacity 0.6s ease 0.4s;
+  }
+  .loader-logo.visible ~ .loader-sub {
+    opacity: 1;
+  }
+  .loader-logo .logo-img {
+    height: 320px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+  }
+</style>

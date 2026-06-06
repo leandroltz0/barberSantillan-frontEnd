@@ -42,6 +42,191 @@
           <div class="review-card"><div class="review-card-stars">★★★★★</div><div class="review-card-text">"El local impecable, el trato excelente. Vuelvo sin dudas."</div><div class="review-card-author">Agustín <span>· Hace 1 día</span></div></div>
         </div>
       </div>
+      <div class="add-review-container">
+        <button class="add-review-btn" onclick="openReviewModal()">Agregar Opinión</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Modal Overlay -->
+  <div id="reviewModal" class="review-modal-overlay">
+    <div class="review-modal-content">
+      <button class="review-modal-close" onclick="closeReviewModal()">✕</button>
+      <div class="review-modal-logo">
+        <img src="/logo.png" alt="Santillán" class="logo-img">
+      </div>
+      <p class="review-modal-sub">Dejanos tu experiencia</p>
+      
+      <form class="review-form" id="reviewForm" onsubmit="submitReview(event)">
+        <div class="form-group">
+          <label for="reviewName">Nombre</label>
+          <input type="text" id="reviewName" name="name" required placeholder="Tu nombre" />
+        </div>
+        
+        <div class="form-group">
+          <label>Calificación</label>
+          <div class="star-rating-input">
+            <input type="radio" id="star5" name="rating" value="5" required /><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="reviewText">Opinión</label>
+          <textarea id="reviewText" name="opinion" required rows="4" placeholder="¿Qué te pareció el servicio?"></textarea>
+        </div>
+        
+        <button type="submit" class="submit-review-btn">Enviar Opinión</button>
+      </form>
+      <div id="reviewSuccess" class="review-success-msg" style="display:none;">
+        <div class="success-icon">✓</div>
+        <p>¡Gracias por tu opinión!</p>
+      </div>
     </div>
   </div>
 </section>
+<style>
+  #social-proof { padding: 60px 0; }
+  .social-grid { display: flex; flex-direction: column; align-items: center; gap: 32px; }
+  .social-ratings { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center; }
+  .social-rating { text-align: center; }
+  .social-rating-num {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 72px;
+    font-style: italic;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .social-rating-stars { color: var(--gold); font-size: 18px; letter-spacing: 4px; margin: 4px 0; }
+  .social-rating-label {
+    font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+  }
+  .social-divider { width: 1px; height: 80px; background: rgba(201,168,76,0.2); display: none; }
+  .social-quote {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--cream);
+    text-align: center;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+  .social-quote cite { display: block; font-family: "DM Sans", sans-serif; font-size: 12px; font-style: normal; color: var(--muted); margin-top: 8px; }
+  @media (min-width: 768px) { .social-divider { display: block; } .social-grid { gap: 24px; } }
+  .review-marquee {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 24px;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+  .review-marquee + .review-marquee { margin-top: 12px; }
+  .review-track { display: flex; gap: 24px; width: max-content; animation: scrollLeft 40s linear infinite; }
+  .review-marquee.right .review-track { animation: scrollRight 40s linear infinite; }
+  .review-card {
+    background: var(--surface);
+    border: 1px solid var(--border-subtle);
+    padding: 16px 24px;
+    border-radius: 0;
+    min-width: 300px;
+    max-width: 360px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .review-card-stars { color: var(--gold); font-size: 13px; letter-spacing: 2px; margin-bottom: 8px; }
+  .review-card-text {
+    font-family: "DM Sans", sans-serif; font-size: 14px; color: var(--muted);
+    line-height: 1.6; font-style: italic;
+  }
+  .review-card-author {
+    font-family: "DM Sans", sans-serif; font-size: 11px; font-weight: 500;
+    color: var(--cream); margin-top: 8px; letter-spacing: 0.05em;
+  }
+  .review-card-author span { color: var(--gold); }
+  .review-marquee:hover .review-track { animation-play-state: paused; }
+  @media (max-width: 767px) {
+    .review-card { min-width: 260px; max-width: 280px; padding: 12px 16px; }
+    .social-rating-num { font-size: 48px; }
+    .social-quote { font-size: 18px; }
+    .social-grid { gap: 16px; }
+    .add-review-container { justify-content: center; }
+  }
+  @media (max-width: 480px) {
+    .social-ratings { gap: 16px; }
+    .social-rating-num { font-size: 36px; }
+    .social-rating-stars { font-size: 14px; letter-spacing: 2px; }
+    .review-modal-content { padding: 30px 16px; }
+  }
+  .add-review-container { display: flex; justify-content: flex-end; margin-top: 24px; }
+  .add-review-btn {
+    background: transparent; border: 1px solid var(--gold); color: var(--gold);
+    font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; padding: 12px 24px;
+    border-radius: 30px; cursor: pointer; transition: all 0.4s ease;
+  }
+  .add-review-btn:hover { background: var(--gold); color: var(--bg); box-shadow: 0 4px 15px rgba(201,168,76,0.3); transform: translateY(-2px); }
+  .review-modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10,10,10,0.85); backdrop-filter: blur(5px);
+    z-index: 100000; display: none; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.4s ease;
+  }
+  .review-modal-overlay.open { display: flex; opacity: 1; }
+  .review-modal-content {
+    background: var(--surface); border: 1px solid var(--border-subtle);
+    border-top: 3px solid var(--gold); padding: 40px 30px;
+    width: 90%; max-width: 450px; position: relative; border-radius: 8px;
+    transform: translateY(20px); transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+  }
+  @media (min-width: 768px) { .review-modal-content { max-width: 600px; padding: 50px 60px; } }
+  .review-modal-overlay.open .review-modal-content { transform: translateY(0); }
+  .review-modal-close {
+    position: absolute; top: 15px; right: 15px; background: none; border: none;
+    color: var(--muted); font-size: 20px; cursor: pointer; transition: color 0.3s, transform 0.3s;
+  }
+  .review-modal-close:hover { color: var(--cream); transform: rotate(90deg); }
+  .review-modal-logo { display: flex; justify-content: center; margin-bottom: 8px; }
+  .review-modal-logo img { height: calc(80px + 2.5rem); width: auto; }
+  .review-modal-sub {
+    font-family: "DM Sans", sans-serif; font-size: 13px; color: var(--muted);
+    text-align: center; margin-bottom: 30px; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .review-form .form-group { margin-bottom: 20px; }
+  .review-form label {
+    display: block; font-family: "DM Sans", sans-serif; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .review-form input[type="text"],
+  .review-form textarea {
+    width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle);
+    color: var(--cream); font-family: "DM Sans", sans-serif; font-size: 14px;
+    padding: 12px 14px; border-radius: 4px; outline: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .review-form input[type="text"]:focus,
+  .review-form textarea:focus { border-color: rgba(201,168,76,0.5); background: rgba(255,255,255,0.06); }
+  .star-rating-input { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 8px; }
+  .star-rating-input input { display: none; }
+  .star-rating-input label {
+    font-size: 24px; color: var(--border-subtle); cursor: pointer;
+    transition: color 0.3s; margin: 0; text-transform: none; letter-spacing: 0;
+  }
+  .star-rating-input input:checked ~ label,
+  .star-rating-input label:hover,
+  .star-rating-input label:hover ~ label { color: var(--gold); }
+  .submit-review-btn {
+    width: 100%; background: var(--gold); color: var(--bg); border: none;
+    font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase; padding: 14px;
+    border-radius: 4px; cursor: pointer; margin-top: 10px;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .submit-review-btn:hover { background: #d4b55e; transform: translateY(-2px); }
+  .review-success-msg { text-align: center; padding: 30px 0; }
+  .review-success-msg .success-icon { font-size: 48px; color: var(--gold); margin-bottom: 16px; }
+  .review-success-msg p { font-family: "DM Sans", sans-serif; font-size: 16px; color: var(--cream); }
+</style>
