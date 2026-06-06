@@ -56,8 +56,8 @@ body::after {
   --border-subtle: rgba(255, 255, 255, 0.07);
   --border-gold: rgba(201, 168, 76, 0.3);
   --whatsapp: #25d366;
-  --max-w: 1440px;
-  --pad-d: 64px;
+  --max-w: 1700px;
+  --pad-d: 80px;
   --pad-m: 24px;
 }
 h1,
@@ -303,64 +303,181 @@ nav a.nav-visagismo::before {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 40000;
-  background: #0d0d0d;
+  z-index: 60000;
+  background: #080808;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s;
+  /* Instead of transition, we'll use GSAP or clip-path. We'll set a default CSS clip-path for reveal */
+  clip-path: circle(0% at 100% 0%);
 }
 .mobile-overlay.open {
   display: flex;
   opacity: 1;
+  visibility: visible;
+  /* GSAP will handle the clip-path animation to circle(150% at 100% 0%) */
 }
-.mobile-overlay a {
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 40px;
-  color: var(--cream);
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
-  width: 60%;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(-20px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+.mobile-overlay-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='nf'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23nf)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
 }
-.mobile-overlay.open a {
-  opacity: 1;
-  transform: translateY(0);
+.mobile-overlay-glow {
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
 }
-.mobile-overlay.open a:nth-child(1) {
-  transition-delay: 0.05s;
-}
-.mobile-overlay.open a:nth-child(2) {
-  transition-delay: 0.1s;
-}
-.mobile-overlay.open a:nth-child(3) {
-  transition-delay: 0.15s;
-}
-.mobile-overlay.open a:nth-child(4) {
-  transition-delay: 0.2s;
-}
-.mobile-overlay.open a:nth-child(5) {
-  transition-delay: 0.25s;
-}
-.mobile-overlay.open a:nth-child(6) {
-  transition-delay: 0.3s;
+.mobile-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px var(--pad-m);
 }
 .mobile-close {
-  position: absolute;
-  top: 24px;
-  right: 24px;
   background: none;
   border: none;
   color: var(--cream);
-  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
   cursor: pointer;
+  transition: color 0.3s, transform 0.4s ease;
+  padding: 16px;
+  margin-right: -16px;
+}
+.mobile-close:hover {
+  color: var(--gold);
+  transform: rotate(45deg);
+}
+.mobile-nav-content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px var(--pad-m) 40px;
+  overflow-y: auto;
+}
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.mobile-nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  /* GSAP will animate opacity and transform */
+  opacity: 0;
+  transform: translateY(20px);
+}
+.nav-num {
+  font-family: "JetBrains Mono", "DM Sans", monospace;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--cream);
+  opacity: 0.3;
+  margin-top: 6px;
+}
+.nav-text {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 52px;
+  color: #F0EDE8;
+  line-height: 1;
+  transition: color 0.3s ease, transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+}
+.mobile-nav-links a::before {
+  content: "";
+  position: absolute;
+  left: 36px;
+  top: 50%;
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left;
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  opacity: 0;
+}
+.mobile-nav-links a:hover .nav-text {
+  color: var(--gold);
+  transform: translateX(36px);
+}
+.mobile-nav-links a:hover::before {
+  transform: translateY(-50%) scaleX(1);
+  opacity: 1;
+}
+.mobile-nav-visagismo .nav-text {
+  color: #dc2626;
+}
+.mobile-nav-visagismo:hover .nav-text {
+  color: #ef4444;
+}
+.mobile-nav-visagismo::before {
+  background: #ef4444;
+}
+.mobile-nav-footer {
+  margin-top: auto;
+  padding-top: 60px;
+  /* GSAP will animate this */
+  opacity: 0;
+  transform: translateY(20px);
+}
+.mobile-nav-tagline {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 20px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.mobile-nav-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.mobile-nav-address {
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  opacity: 0.8;
+}
+.mobile-nav-socials {
+  display: flex;
+  gap: 24px;
+}
+.mobile-nav-socials a {
+  color: var(--cream);
+  opacity: 0.8;
+  transition: color 0.3s, transform 0.3s, opacity 0.3s;
+}
+.mobile-nav-socials a svg {
+  width: 24px;
+  height: 24px;
+}
+.mobile-nav-socials a:hover {
+  color: var(--gold);
+  opacity: 1;
+  transform: translateY(-3px);
 }
 @media (max-width: 767px) {
   nav.desktop-nav {
@@ -599,7 +716,7 @@ nav a.nav-visagismo::before {
 .hero-line1 {
   font-family: "DM Sans", sans-serif;
   font-weight: 700;
-  font-size: clamp(50px, 9vw, 90px);
+  font-size: clamp(50px, 9vw, 110px);
   color: var(--cream);
   line-height: 1.1;
   opacity: 0;
@@ -610,7 +727,7 @@ nav a.nav-visagismo::before {
 }
 .hero-line2 {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(60px, 10vw, 110px);
+  font-size: clamp(60px, 10vw, 150px);
   color: var(--cream);
   line-height: 1.15;
   margin: 4px 0;
@@ -629,7 +746,7 @@ nav a.nav-visagismo::before {
 .hero-line3 {
   font-family: "DM Sans", sans-serif;
   font-weight: 700;
-  font-size: clamp(44px, 8vw, 80px);
+  font-size: clamp(44px, 8vw, 100px);
   color: var(--cream);
   line-height: 1.1;
   opacity: 0;
