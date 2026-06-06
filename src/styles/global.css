@@ -344,7 +344,7 @@ nav a.nav-visagismo::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px var(--pad-m);
+  padding: 12px var(--pad-m);
 }
 .mobile-close {
   background: none;
@@ -353,12 +353,11 @@ nav a.nav-visagismo::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   cursor: pointer;
   transition: color 0.3s, transform 0.4s ease;
-  padding: 16px;
-  margin-right: -16px;
+  margin-right: 2px;
 }
 .mobile-close:hover {
   color: var(--gold);
