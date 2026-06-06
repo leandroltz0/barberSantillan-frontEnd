@@ -280,6 +280,7 @@ nav a.nav-visagismo::before {
   border: none;
   cursor: pointer;
   padding: 4px;
+  margin-right: 14px;
 }
 .hamburger span {
   display: block;
