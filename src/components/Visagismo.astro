@@ -270,8 +270,24 @@
   #visagismoOverlay .visagismo-header { text-align: center; margin-bottom: 48px; }
   #visagismoOverlay .visagismo-heading {
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(36px, 4.5vw, 56px); color: var(--cream);
-    text-align: center; line-height: 1.2; margin-bottom: 12px;
+    font-size: clamp(44px, 6vw, 66px);
+    font-weight: 600;
+    color: var(--gold);
+    text-align: center;
+    line-height: 1.2;
+    position: relative;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+  }
+  #visagismoOverlay .visagismo-heading::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
   }
   #visagismoOverlay .visagismo-sub {
     font-family: "DM Sans", sans-serif; font-size: 15px; color: var(--muted);

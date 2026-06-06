@@ -110,9 +110,22 @@
   }
   .why-heading {
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(32px, 4vw, 44px);
-    color: var(--cream);
-    margin-bottom: 32px;
+    font-size: clamp(40px, 5.5vw, 56px);
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1.2;
+    position: relative;
+    padding-bottom: 12px;
+    margin-bottom: 28px;
+  }
+  .why-heading::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
   }
   .why-features {
     display: grid;

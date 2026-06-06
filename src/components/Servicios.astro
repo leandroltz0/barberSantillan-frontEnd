@@ -108,10 +108,23 @@
   }
   .services-heading {
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(38px, 5vw, 56px);
-    color: var(--cream);
-    margin: 0 0 16px;
-    font-weight: 500;
+    font-size: clamp(44px, 6vw, 66px);
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1.2;
+    position: relative;
+    padding-bottom: 12px;
+    margin: 0 0 24px;
+  }
+  .services-heading::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
   }
   .services-sub {
     font-family: "DM Sans", sans-serif;

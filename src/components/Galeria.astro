@@ -33,9 +33,23 @@
   .gallery-header { margin-bottom: 32px; }
   .gallery-heading {
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(38px, 5vw, 56px);
-    color: var(--cream);
+    font-size: clamp(44px, 6vw, 66px);
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1.2;
+    position: relative;
+    padding-bottom: 12px;
     margin-top: 8px;
+    margin-bottom: 20px;
+  }
+  .gallery-heading::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
   }
   .gallery-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
   .gallery-filters button {
