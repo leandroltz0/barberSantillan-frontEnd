@@ -1,0 +1,505 @@
+(function(){
+  'use strict';
+
+  var loader = document.getElementById('loader');
+  var loaderLogo = document.getElementById('loaderLogo');
+  if (loaderLogo) {
+    setTimeout(function(){ loaderLogo.classList.add('visible'); }, 200);
+    setTimeout(function(){
+      if (loader) loader.classList.add('hidden');
+      document.body.classList.add('loaded');
+    }, 1600);
+    setTimeout(function(){
+      if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+    }, 2200);
+  } else {
+    document.body.classList.add('loaded');
+  }
+
+  function animateHero() {
+    var els = ['heroLabel','heroLine1','heroLine2','heroLine3','heroSub','heroCta','heroStats'];
+    els.forEach(function(id, i) {
+      var el = document.getElementById(id);
+      if (el) {
+        setTimeout(function(){ el.classList.add('animate'); }, i * 150);
+      }
+    });
+  }
+
+  // === GOLDEN DIAGONAL LINES CANVAS ===
+  (function(){
+    var c = document.getElementById('heroCanvas');
+    if (!c) return;
+    var ctx = c.getContext('2d');
+    var W = 0, H = 0;
+    var ANGLE = 35 * Math.PI / 180;
+    var COS = Math.cos(ANGLE), SIN = Math.sin(ANGLE);
+    var LINE_DURATION = 3500;
+    var STAGGER = 200;
+    var START_DELAY = 400;
+    var animId = null, allDone = false, lineData = [];
+
+    function resize() {
+      var p = c.parentElement;
+      if (!p) return;
+      var r = p.getBoundingClientRect();
+      W = c.width = Math.round(r.width);
+      H = c.height = Math.round(r.height);
+    }
+
+    function build() {
+      lineData = [];
+      var px = -SIN, py = COS;
+      var corners = [
+        0, W*px + 0*py,
+        W*px + 0, 0 + H*py,
+        W*px + H*py
+      ];
+      var mn = Infinity, mx = -Infinity;
+      for (var k = 0; k < corners.length; k++) {
+        if (corners[k] < mn) mn = corners[k];
+        if (corners[k] > mx) mx = corners[k];
+      }
+      var span = mx - mn;
+      
+      var sp = 55;
+      
+      var n = Math.max(1, Math.round(span / sp));
+      var step = span / (n + 1);
+
+      var rA = [0, W*COS, H*SIN, W*COS + H*SIN];
+      var rn = Infinity, rx = -Infinity;
+      for (var k = 0; k < rA.length; k++) {
+        if (rA[k] < rn) rn = rA[k];
+        if (rA[k] > rx) rx = rA[k];
+      }
+      var diag = (rx - rn) * 1.4;
+
+      var op = '0.35';
+      var lw = 1.6;
+
+      for (var i = 0; i < n; i++) {
+        var pv = mn + (i + 1) * step;
+        var ox = pv * px, oy = pv * py;
+        lineData.push({
+          x1: ox - diag * COS, y1: oy - diag * SIN,
+          x2: ox + diag * COS, y2: oy + diag * SIN,
+          opacity: op, lw: lw
+        });
+      }
+      return n;
+    }
+
+    function drawLine(d, p) {
+      var dx = d.x2 - d.x1, dy = d.y2 - d.y1;
+      var drawn = p;
+      if (drawn < 0.005) return;
+      var eX = d.x1 + dx * p, eY = d.y1 + dy * p;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(d.x1, d.y1);
+      ctx.lineTo(eX, eY);
+      ctx.strokeStyle = 'rgba(220, 190, 80, 0.4)';
+      ctx.lineWidth = 1.2;
+      ctx.shadowColor = 'rgba(220, 190, 80, 0.3)';
+      ctx.shadowBlur = 5;
+      ctx.lineCap = 'round';
+      ctx.stroke();
+      ctx.restore();
+
+      // Advancing tip glow
+      if (p < 1 && p > 0.01) {
+        ctx.save();
+        var grd = ctx.createRadialGradient(eX, eY, 0, eX, eY, 22);
+        grd.addColorStop(0, 'rgba(255,235,120,' + (parseFloat(d.opacity) * 0.5) + ')');
+        grd.addColorStop(1, 'rgba(201,168,76,0)');
+        ctx.beginPath();
+        ctx.arc(eX, eY, 22, 0, Math.PI * 2);
+        ctx.fillStyle = grd;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    resize();
+    var L = build();
+    var totalLines = L;
+
+    function draw(t) {
+      if (!t) t = performance.now();
+      if (!draw.startTime) draw.startTime = t;
+      var elapsed = t - draw.startTime;
+      ctx.clearRect(0, 0, W, H);
+      var active = false;
+
+      for (var i = 0; i < totalLines; i++) {
+        var ls = START_DELAY + i * STAGGER;
+        if (elapsed < ls) continue;
+        var p = Math.min(1, (elapsed - ls) / LINE_DURATION);
+        if (p < 1) active = true;
+        drawLine(lineData[i], p);
+      }
+
+      if (active) {
+        animId = requestAnimationFrame(draw);
+      } else if (!allDone) {
+        allDone = true;
+        // One final full draw to ensure crisp lines
+        for (var i = 0; i < totalLines; i++) drawLine(lineData[i], 1);
+      }
+    }
+
+    setTimeout(function(){ animId = requestAnimationFrame(draw); }, 300);
+
+    var resizeTimer;
+    window.addEventListener('resize', function(){
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function(){
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+        resize();
+        totalLines = build();
+        draw.startTime = null;
+        allDone = false;
+        animId = requestAnimationFrame(draw);
+      }, 200);
+    });
+  })();
+
+  var header = document.getElementById('header');
+  function onScroll() {
+    if (!header) return;
+    if (window.scrollY > 60) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var hamburger = document.getElementById('hamburger');
+  var mobileOverlay = document.getElementById('mobileOverlay');
+  var mobileClose = document.getElementById('mobileClose');
+  var mobileLinks = mobileOverlay ? mobileOverlay.querySelectorAll('a') : [];
+  function openMobile() {
+    if (!mobileOverlay) return;
+    mobileOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (hamburger) hamburger.classList.add('active');
+  }
+  function closeMobile() {
+    if (!mobileOverlay) return;
+    mobileOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    if (hamburger) hamburger.classList.remove('active');
+  }
+  if (hamburger) hamburger.addEventListener('click', openMobile);
+  if (mobileClose) mobileClose.addEventListener('click', closeMobile);
+  mobileLinks.forEach(function(l){ l.addEventListener('click', closeMobile); });
+
+  // ---- GSAP + SCROLLTRIGGER — ALL SECTIONS --------------------------------
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+    // About: collage photos staggered entrance + text slide
+    var aboutCollage = document.querySelector('.about-collage');
+    var aboutText = document.querySelector('.about-text');
+    var aboutPhotos = document.querySelectorAll('.about-collage [class^="collage-ph-"]');
+    var collageFrame = document.querySelector('.collage-frame');
+    if (aboutPhotos.length) {
+      gsap.from(aboutPhotos, {
+        scrollTrigger: { trigger: aboutCollage, start: 'top 82%' },
+        opacity: 0, y: 40, scale: 0.96, duration: 0.8, stagger: 0.18, ease: 'power3.out'
+      });
+      if (collageFrame) {
+        gsap.from(collageFrame, {
+          scrollTrigger: { trigger: aboutCollage, start: 'top 82%' },
+          opacity: 0, scale: 0.92, duration: 0.7, delay: 0.1, ease: 'power2.out'
+        });
+      }
+    }
+    if (aboutText) {
+      gsap.from(aboutText, {
+        scrollTrigger: { trigger: aboutText, start: 'top 82%' },
+        opacity: 0, x: 60, duration: 0.9, ease: 'power3.out'
+      });
+    }
+
+    // Services: header fade-up, cards staggered
+    var servHeader = document.querySelector('.services-header');
+    var servCards = document.querySelectorAll('.service-card');
+    if (servHeader) {
+      gsap.from(servHeader, {
+        scrollTrigger: { trigger: servHeader, start: 'top 85%' },
+        opacity: 0, y: 30, duration: 0.7, ease: 'power2.out'
+      });
+    }
+    if (servCards.length) {
+      gsap.from(servCards, {
+        scrollTrigger: { trigger: servCards[0].parentElement, start: 'top 82%' },
+        opacity: 0, y: 50, stagger: 0.12, duration: 0.7, ease: 'back.out(1.2)'
+      });
+    }
+    var servBottom = document.querySelector('.services-bottom');
+    if (servBottom) {
+      gsap.from(servBottom, {
+        scrollTrigger: { trigger: servBottom, start: 'top 90%' },
+        opacity: 0, y: 30, duration: 0.6, ease: 'power2.out'
+      });
+    }
+
+    // Gallery: header, filters, then items cascade
+    var galHeader = document.querySelector('.gallery-header');
+    var galFilters = document.querySelector('.gallery-filters');
+    var galItems = document.querySelectorAll('.gallery-item');
+    if (galHeader) {
+      gsap.from(galHeader, {
+        scrollTrigger: { trigger: galHeader, start: 'top 85%' },
+        opacity: 0, y: 30, duration: 0.7, ease: 'power2.out'
+      });
+    }
+    if (galFilters) {
+      gsap.from(galFilters, {
+        scrollTrigger: { trigger: galFilters, start: 'top 85%' },
+        opacity: 0, y: 20, duration: 0.5, ease: 'power2.out'
+      });
+    }
+    if (galItems.length) {
+      gsap.from(galItems, {
+        scrollTrigger: { trigger: galItems[0].parentElement, start: 'top 80%' },
+        opacity: 0, y: 40, stagger: 0.06, duration: 0.6, ease: 'power2.out'
+      });
+    }
+
+    // "Why us" section — video + text
+    var whyVideo = document.getElementById('whyVideo');
+    var whyRight = document.getElementById('whyRight');
+    var whyItems = document.querySelectorAll('.why-feat-item');
+    if (whyVideo) {
+      gsap.from(whyVideo, {
+        scrollTrigger: { trigger: whyVideo, start: 'top 80%' },
+        opacity: 0, x: -50, scale: 0.95, duration: 0.9, ease: 'power3.out'
+      });
+    }
+    if (whyRight) {
+      gsap.from(whyRight, {
+        scrollTrigger: { trigger: whyRight, start: 'top 80%' },
+        opacity: 0, x: 60, duration: 0.9, ease: 'power3.out'
+      });
+    }
+    if (whyItems.length) {
+      gsap.from(whyItems, {
+        scrollTrigger: { trigger: whyItems[0].parentElement, start: 'top 80%' },
+        opacity: 0, y: 30, stagger: 0.12, duration: 0.6, ease: 'power2.out'
+      });
+    }
+
+    // Certification: text from left, cert frame from right with 3D rotation
+    var certText = document.querySelector('.cert-text');
+    var certVisual = document.querySelector('.cert-visual');
+    if (certText) {
+      gsap.from(certText, {
+        scrollTrigger: { trigger: certText, start: 'top 82%' },
+        opacity: 0, x: -50, duration: 0.9, ease: 'power3.out'
+      });
+    }
+    if (certVisual) {
+      gsap.from(certVisual, {
+        scrollTrigger: { trigger: certVisual, start: 'top 82%' },
+        opacity: 0, rotationY: -15, scale: 0.95, duration: 1,
+        ease: 'power3.out', transformOrigin: 'center center'
+      });
+    }
+
+    // Social proof section: ratings + quote + marquees staggered
+    var socialGrid = document.querySelector('#social-proof .social-grid');
+    if (socialGrid) {
+      var socChildren = socialGrid.children;
+      if (socChildren.length) {
+        gsap.from(socChildren, {
+          scrollTrigger: { trigger: socialGrid, start: 'top 85%' },
+          opacity: 0, y: 30, stagger: 0.15, duration: 0.7, ease: 'power2.out'
+        });
+      }
+    }
+
+    // Contact: fade-up with slight scale
+    var contactInner = document.querySelector('.contact-inner');
+    if (contactInner) {
+      gsap.from(contactInner, {
+        scrollTrigger: { trigger: contactInner, start: 'top 85%' },
+        opacity: 0, y: 40, scale: 0.97, duration: 0.9, ease: 'power3.out'
+      });
+    }
+  }
+
+  // ---- COUNT-UP ----
+  var countObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var target = parseInt(el.getAttribute('data-count'), 10);
+        if (isNaN(target)) return;
+        var current = 0;
+        var duration = 1200;
+        var start = performance.now();
+        function step(now) {
+          var p = Math.min((now - start) / duration, 1);
+          var val = Math.round(p * target);
+          el.textContent = val + (target >= 500 ? '+' : '');
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        countObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('[data-count]').forEach(function(el) {
+    countObserver.observe(el);
+  });
+
+  // ---- CORTES OVERLAY (standalone — only on button click) --------------------
+  var cortesFloat = document.getElementById('cortesFloat');
+  var cortesFloatBtn = document.getElementById('cortesFloatBtn');
+  var cortesSection = document.getElementById('cortes');
+  var cortesClose = document.getElementById('cortesClose');
+  var cortesOkBtn = document.getElementById('cortesOkBtn');
+  var heroSec = document.getElementById('hero');
+  var serviciosSec = document.getElementById('servicios');
+  if (cortesFloat && serviciosSec) {
+    var serviciosObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        cortesFloat.classList.toggle('visible', entry.isIntersecting);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -20% 0px' });
+    serviciosObs.observe(serviciosSec);
+  }
+
+  var cortesScroll = document.getElementById('cortesScroll');
+  function onCortesWheel(e) {
+    if (!cortesSection.classList.contains('open')) return;
+    var el = document.getElementById('cortesScroll');
+    if (!el) return;
+    var dx = (e.deltaY || e.deltaX) * 4;
+    el.scrollLeft += dx;
+    if (dx !== 0) e.preventDefault();
+  }
+  function openCortes() {
+    if (!cortesSection) return;
+    cortesSection.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function() {
+      cortesSection.classList.add('open');
+      if (cortesScroll) cortesScroll.scrollLeft = 0;
+      if (typeof gsap !== 'undefined') {
+        var cards = cortesSection.querySelectorAll('.cortes-card, .cortes-card-end');
+        gsap.from(cards, { opacity: 0, x: 80, stagger: 0.08, duration: 0.7, ease: 'power3.out' });
+      }
+    });
+    window.addEventListener('wheel', onCortesWheel, { passive: false });
+  }
+  function closeCortes() {
+    if (!cortesSection) return;
+    cortesSection.classList.remove('open');
+    document.body.style.overflow = '';
+    window.removeEventListener('wheel', onCortesWheel, { passive: false });
+    setTimeout(function() {
+      cortesSection.style.display = 'none';
+      if (heroSec) heroSec.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  }
+  if (cortesFloatBtn) cortesFloatBtn.addEventListener('click', openCortes);
+  if (cortesClose) cortesClose.addEventListener('click', closeCortes);
+  if (cortesOkBtn) cortesOkBtn.addEventListener('click', closeCortes);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && cortesSection && cortesSection.classList.contains('open')) closeCortes();
+  });
+
+  // ---- VISAGISMO OVERLAY (standalone — only on nav click) -------------------
+  var visOverlay = document.getElementById('visagismoOverlay');
+  var visClose = document.getElementById('visagismoClose');
+  window.openVisagismo = function() {
+    if (!visOverlay) return;
+    visOverlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function() {
+      visOverlay.classList.add('open');
+      var header = visOverlay.querySelector('.visagismo-header');
+      var cards = visOverlay.querySelectorAll('.vf-card');
+      if (typeof gsap !== 'undefined') {
+        var tl = gsap.timeline();
+        if (header) tl.from(header, { opacity: 0, y: 30, duration: 0.5, ease: 'power2.out' });
+        if (cards.length) tl.from(cards, { opacity: 0, y: 40, stagger: 0.06, duration: 0.5, ease: 'back.out(1.2)' }, '-=0.2');
+      }
+    });
+  };
+  function closeVisagismo() {
+    if (!visOverlay) return;
+    visOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function() {
+      visOverlay.style.display = 'none';
+    }, 300);
+  }
+  if (visClose) visClose.addEventListener('click', closeVisagismo);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && visOverlay && visOverlay.classList.contains('open')) closeVisagismo();
+  });
+
+  // ---- 3D tilt on cert frame ------------------------------------------------
+  var certVisual = document.querySelector('.cert-visual');
+  if (certVisual && !('ontouchstart' in window)) {
+    var frame = certVisual.querySelector('.cert-frame');
+    var maxTilt = 12;
+    var shrink = 0.6;
+    certVisual.addEventListener('mousemove', function(e) {
+      var rect = certVisual.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top + rect.height / 2;
+      var dx = (e.clientX - cx) / (rect.width / 2);
+      var dy = (e.clientY - cy) / (rect.height / 2);
+      var tiltX = -dy * maxTilt;
+      var tiltY = dx * maxTilt;
+      frame.style.transform = 'perspective(1200px) rotateX(' + tiltX.toFixed(1) + 'deg) rotateY(' + tiltY.toFixed(1) + 'deg) translateZ(20px) scale(1.01)';
+      frame.style.boxShadow = '0 0 60px rgba(201,168,76,.18), 0 20px 60px rgba(0,0,0,.4)';
+    });
+    certVisual.addEventListener('mouseleave', function() {
+      frame.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0) scale(1)';
+      frame.style.boxShadow = '0 0 40px rgba(201,168,76,.08)';
+    });
+  }
+
+
+
+  var filterBtns = document.querySelectorAll('.gallery-filters button');
+  var galleryItems = document.querySelectorAll('.gallery-item');
+  filterBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.getAttribute('data-filter');
+      galleryItems.forEach(function(item) {
+        var cat = item.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          item.style.display = 'block';
+          item.style.opacity = '1';
+        } else {
+          item.style.opacity = '0';
+          setTimeout(function(){ if (item.getAttribute('data-category') !== filter && filter !== 'all') item.style.display = 'none'; }, 300);
+        }
+      });
+    });
+  });
+
+  // ---- HERO animation kicks off on load ----
+  setTimeout(animateHero, 1700);
+
+
+})();
+
+function toggleVisagismo(btn) {
+  var card = btn.closest('.vf-card');
+  if (!card) return;
+  var expanded = card.classList.toggle('expanded');
+  var arrow = btn.querySelector('.arrow');
+  if (arrow) arrow.textContent = expanded ? '↑' : '↓';
+  btn.textContent = expanded ? 'Ocultar ' : 'Ver cortes ';
+  if (arrow) btn.appendChild(arrow);
+}
