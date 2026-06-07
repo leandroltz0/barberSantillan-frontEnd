@@ -24,9 +24,7 @@
           <span class="service-price">$8.000</span>
         </div>
         <div class="service-image-wrap">
-          <div class="service-image-placeholder">
-            <!-- REPLACE WITH REAL PHOTO -->
-          </div>
+          <div class="service-image-placeholder"><img src="/galeria/corte/corte1.jpeg" alt="Corte normal" loading="lazy" /></div>
           <div class="service-image-overlay"></div>
           <div class="service-image-border"></div>
         </div>
@@ -41,9 +39,7 @@
           <span class="service-price">$18.000</span>
         </div>
         <div class="service-image-wrap">
-          <div class="service-image-placeholder">
-            <!-- REPLACE WITH REAL PHOTO -->
-          </div>
+          <div class="service-image-placeholder"><img src="/galeria/franja/franja1.jpeg" alt="Corte franja" loading="lazy" /></div>
           <div class="service-image-overlay"></div>
           <div class="service-image-border"></div>
         </div>
@@ -58,9 +54,7 @@
           <span class="service-price">$28.000</span>
         </div>
         <div class="service-image-wrap">
-          <div class="service-image-placeholder">
-            <!-- REPLACE WITH REAL PHOTO -->
-          </div>
+          <div class="service-image-placeholder"><img src="/galeria/claritos/claritos1.jpeg" alt="Claritos" loading="lazy" /></div>
           <div class="service-image-overlay"></div>
           <div class="service-image-border"></div>
         </div>
@@ -75,9 +69,7 @@
           <span class="service-price">$35.000</span>
         </div>
         <div class="service-image-wrap">
-          <div class="service-image-placeholder">
-            <!-- REPLACE WITH REAL PHOTO -->
-          </div>
+          <div class="service-image-placeholder"><img src="/galeria/global/global1.jpeg" alt="Global" loading="lazy" /></div>
           <div class="service-image-overlay"></div>
           <div class="service-image-border"></div>
         </div>
@@ -206,7 +198,7 @@
   .service-image-wrap {
     position: relative;
     width: 100%;
-    height: 260px;
+    height: 650px;
     overflow: hidden;
     cursor: pointer;
   }
@@ -214,15 +206,11 @@
     width: 100%;
     height: 100%;
     background: #1c1c1c;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "DM Sans", sans-serif;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(136, 136, 136, 0.4);
+    overflow: hidden;
     transition: transform 0.5s ease;
+  }
+  .service-image-placeholder img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
   }
   .service-image-overlay {
     position: absolute;

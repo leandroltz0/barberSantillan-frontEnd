@@ -364,8 +364,7 @@
     }
   };
   
-  // Initialize on load
-  document.addEventListener('DOMContentLoaded', initMobileMenu);
-  // Also initialize if Astro does view transitions
+  // Initialize on load and view transitions
+  initMobileMenu();
   document.addEventListener('astro:page-load', initMobileMenu);
 </script>

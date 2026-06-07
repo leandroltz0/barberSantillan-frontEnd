@@ -191,144 +191,58 @@
     document.body.style.overflow = '';
     if (hamburger) hamburger.classList.remove('active');
   }
-  if (hamburger) hamburger.addEventListener('click', openMobile);
   if (mobileClose) mobileClose.addEventListener('click', closeMobile);
   mobileLinks.forEach(function(l){ l.addEventListener('click', closeMobile); });
 
   // ---- GSAP + SCROLLTRIGGER — ALL SECTIONS --------------------------------
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+  var gsapAnims = [];
+  function initGsap() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
     gsap.registerPlugin(ScrollTrigger);
-    // About: collage photos staggered entrance + text slide
-    var aboutCollage = document.querySelector('.about-collage');
-    var aboutText = document.querySelector('.about-text');
-    var aboutPhotos = document.querySelectorAll('.about-collage [class^="collage-ph-"]');
-    var collageFrame = document.querySelector('.collage-frame');
-    if (aboutPhotos.length) {
-      gsap.from(aboutPhotos, {
-        scrollTrigger: { trigger: aboutCollage, start: 'top 82%' },
-        opacity: 0, y: 40, scale: 0.96, duration: 0.8, stagger: 0.18, ease: 'power3.out'
-      });
-      if (collageFrame) {
-        gsap.from(collageFrame, {
-          scrollTrigger: { trigger: aboutCollage, start: 'top 82%' },
-          opacity: 0, scale: 0.92, duration: 0.7, delay: 0.1, ease: 'power2.out'
-        });
-      }
+    function ad(targets, vars) { gsapAnims.push(gsap.from(targets, vars)); }
+    var ac = document.querySelector('.about-collage');
+    var at = document.querySelector('.about-text');
+    var ap = document.querySelectorAll('.about-collage [class^="collage-ph-"]');
+    var cf = document.querySelector('.collage-frame');
+    if (ap.length) {
+      ad(ap, { scrollTrigger: { trigger: ac, start: 'top 82%' }, opacity: 0, y: 40, scale: 0.96, duration: 0.8, stagger: 0.18, ease: 'power3.out' });
+      if (cf) ad(cf, { scrollTrigger: { trigger: ac, start: 'top 82%' }, opacity: 0, scale: 0.92, duration: 0.7, delay: 0.1, ease: 'power2.out' });
     }
-    if (aboutText) {
-      gsap.from(aboutText, {
-        scrollTrigger: { trigger: aboutText, start: 'top 82%' },
-        opacity: 0, x: 60, duration: 0.9, ease: 'power3.out'
-      });
-    }
-
-    // Services: header fade-up, cards staggered
-    var servHeader = document.querySelector('.services-header');
-    var servCards = document.querySelectorAll('.service-card');
-    if (servHeader) {
-      gsap.from(servHeader, {
-        scrollTrigger: { trigger: servHeader, start: 'top 85%' },
-        opacity: 0, y: 30, duration: 0.7, ease: 'power2.out'
-      });
-    }
-    if (servCards.length) {
-      gsap.from(servCards, {
-        scrollTrigger: { trigger: servCards[0].parentElement, start: 'top 82%' },
-        opacity: 0, y: 50, stagger: 0.12, duration: 0.7, ease: 'back.out(1.2)'
-      });
-    }
-    var servBottom = document.querySelector('.services-bottom');
-    if (servBottom) {
-      gsap.from(servBottom, {
-        scrollTrigger: { trigger: servBottom, start: 'top 90%' },
-        opacity: 0, y: 30, duration: 0.6, ease: 'power2.out'
-      });
-    }
-
-    // Gallery: header, filters, then items cascade
-    var galHeader = document.querySelector('.gallery-header');
-    var galFilters = document.querySelector('.gallery-filters');
-    var galItems = document.querySelectorAll('.gallery-item');
-    if (galHeader) {
-      gsap.from(galHeader, {
-        scrollTrigger: { trigger: galHeader, start: 'top 85%' },
-        opacity: 0, y: 30, duration: 0.7, ease: 'power2.out'
-      });
-    }
-    if (galFilters) {
-      gsap.from(galFilters, {
-        scrollTrigger: { trigger: galFilters, start: 'top 85%' },
-        opacity: 0, y: 20, duration: 0.5, ease: 'power2.out'
-      });
-    }
-    if (galItems.length) {
-      gsap.from(galItems, {
-        scrollTrigger: { trigger: galItems[0].parentElement, start: 'top 80%' },
-        opacity: 0, y: 40, stagger: 0.06, duration: 0.6, ease: 'power2.out'
-      });
-    }
-
-    // "Why us" section — video + text
-    var whyVideo = document.getElementById('whyVideo');
-    var whyRight = document.getElementById('whyRight');
-    var whyItems = document.querySelectorAll('.why-feat-item');
-    if (whyVideo) {
-      gsap.from(whyVideo, {
-        scrollTrigger: { trigger: whyVideo, start: 'top 80%' },
-        opacity: 0, x: -50, scale: 0.95, duration: 0.9, ease: 'power3.out'
-      });
-    }
-    if (whyRight) {
-      gsap.from(whyRight, {
-        scrollTrigger: { trigger: whyRight, start: 'top 80%' },
-        opacity: 0, x: 60, duration: 0.9, ease: 'power3.out'
-      });
-    }
-    if (whyItems.length) {
-      gsap.from(whyItems, {
-        scrollTrigger: { trigger: whyItems[0].parentElement, start: 'top 80%' },
-        opacity: 0, y: 30, stagger: 0.12, duration: 0.6, ease: 'power2.out'
-      });
-    }
-
-    // Certification: text from left, cert frame from right with 3D rotation
-    var certText = document.querySelector('.cert-text');
-    var certVisual = document.querySelector('.cert-visual');
-    if (certText) {
-      gsap.from(certText, {
-        scrollTrigger: { trigger: certText, start: 'top 82%' },
-        opacity: 0, x: -50, duration: 0.9, ease: 'power3.out'
-      });
-    }
-    if (certVisual) {
-      gsap.from(certVisual, {
-        scrollTrigger: { trigger: certVisual, start: 'top 82%' },
-        opacity: 0, rotationY: -15, scale: 0.95, duration: 1,
-        ease: 'power3.out', transformOrigin: 'center center'
-      });
-    }
-
-    // Social proof section: ratings + quote + marquees staggered
-    var socialGrid = document.querySelector('#social-proof .social-grid');
-    if (socialGrid) {
-      var socChildren = socialGrid.children;
-      if (socChildren.length) {
-        gsap.from(socChildren, {
-          scrollTrigger: { trigger: socialGrid, start: 'top 85%' },
-          opacity: 0, y: 30, stagger: 0.15, duration: 0.7, ease: 'power2.out'
-        });
-      }
-    }
-
-    // Contact: fade-up with slight scale
-    var contactInner = document.querySelector('.contact-inner');
-    if (contactInner) {
-      gsap.from(contactInner, {
-        scrollTrigger: { trigger: contactInner, start: 'top 85%' },
-        opacity: 0, y: 40, scale: 0.97, duration: 0.9, ease: 'power3.out'
-      });
-    }
+    if (at) ad(at, { scrollTrigger: { trigger: at, start: 'top 82%' }, opacity: 0, x: 60, duration: 0.9, ease: 'power3.out' });
+    var sh = document.querySelector('.services-header');
+    var sc = document.querySelectorAll('.service-card');
+    if (sh) ad(sh, { scrollTrigger: { trigger: sh, start: 'top 85%' }, opacity: 0, y: 30, duration: 0.7, ease: 'power2.out' });
+    if (sc.length) ad(sc, { scrollTrigger: { trigger: sc[0].parentElement, start: 'top 82%' }, opacity: 0, y: 50, stagger: 0.12, duration: 0.7, ease: 'back.out(1.2)' });
+    var sb = document.querySelector('.services-bottom');
+    if (sb) ad(sb, { scrollTrigger: { trigger: sb, start: 'top 90%' }, opacity: 0, y: 30, duration: 0.6, ease: 'power2.out' });
+    var gh = document.querySelector('.gallery-header');
+    var gf = document.querySelector('.gallery-filters');
+    var gi = document.querySelectorAll('.gallery-item');
+    if (gh) ad(gh, { scrollTrigger: { trigger: gh, start: 'top 85%' }, opacity: 0, y: 30, duration: 0.7, ease: 'power2.out' });
+    if (gf) ad(gf, { scrollTrigger: { trigger: gf, start: 'top 85%' }, opacity: 0, y: 20, duration: 0.5, ease: 'power2.out' });
+    if (gi.length) ad(gi, { scrollTrigger: { trigger: gi[0].parentElement, start: 'top 80%' }, opacity: 0, y: 40, stagger: 0.06, duration: 0.6, ease: 'power2.out' });
+    var wv = document.getElementById('whyVideo');
+    var wr = document.getElementById('whyRight');
+    var wi = document.querySelectorAll('.why-feat-item');
+    if (wv) ad(wv, { scrollTrigger: { trigger: wv, start: 'top 80%' }, opacity: 0, x: -50, scale: 0.95, duration: 0.9, ease: 'power3.out' });
+    if (wr) ad(wr, { scrollTrigger: { trigger: wr, start: 'top 80%' }, opacity: 0, x: 60, duration: 0.9, ease: 'power3.out' });
+    if (wi.length) ad(wi, { scrollTrigger: { trigger: wi[0].parentElement, start: 'top 80%' }, opacity: 0, y: 30, stagger: 0.12, duration: 0.6, ease: 'power2.out' });
+    var ct = document.querySelector('.cert-text');
+    var cv = document.querySelector('.cert-visual');
+    if (ct) ad(ct, { scrollTrigger: { trigger: ct, start: 'top 82%' }, opacity: 0, x: -50, duration: 0.9, ease: 'power3.out' });
+    if (cv) ad(cv, { scrollTrigger: { trigger: cv, start: 'top 82%' }, opacity: 0, rotationY: -15, scale: 0.95, duration: 1, ease: 'power3.out', transformOrigin: 'center center' });
+    var sg = document.querySelector('#social-proof .social-grid');
+    if (sg && sg.children.length) ad(sg.children, { scrollTrigger: { trigger: sg, start: 'top 85%' }, opacity: 0, y: 30, stagger: 0.15, duration: 0.7, ease: 'power2.out' });
+    var ci = document.querySelector('.contact-inner');
+    if (ci) ad(ci, { scrollTrigger: { trigger: ci, start: 'top 85%' }, opacity: 0, y: 40, scale: 0.97, duration: 0.9, ease: 'power3.out' });
   }
+  function killGsap() {
+    gsapAnims.forEach(function(a) { if (a.scrollTrigger) a.scrollTrigger.kill(); a.kill(); });
+    gsapAnims = [];
+    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.getAll().forEach(function(t) { t.kill(); });
+  }
+  initGsap();
+  document.addEventListener('astro:page-load', function() { killGsap(); initGsap(); });
 
   // ---- COUNT-UP ----
   var countObserver = new IntersectionObserver(function(entries) {
