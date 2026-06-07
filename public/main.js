@@ -316,7 +316,7 @@
     window.removeEventListener('wheel', onCortesWheel, { passive: false });
     setTimeout(function() {
       cortesSection.style.display = 'none';
-      if (heroSec) heroSec.scrollIntoView({ behavior: 'smooth' });
+      if (serviciosSec) serviciosSec.scrollIntoView({ behavior: 'smooth' });
     }, 300);
   }
   if (cortesFloatBtn) cortesFloatBtn.addEventListener('click', openCortes);
