@@ -175,25 +175,6 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  var hamburger = document.getElementById('hamburger');
-  var mobileOverlay = document.getElementById('mobileOverlay');
-  var mobileClose = document.getElementById('mobileClose');
-  var mobileLinks = mobileOverlay ? mobileOverlay.querySelectorAll('a') : [];
-  function openMobile() {
-    if (!mobileOverlay) return;
-    mobileOverlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    if (hamburger) hamburger.classList.add('active');
-  }
-  function closeMobile() {
-    if (!mobileOverlay) return;
-    mobileOverlay.classList.remove('open');
-    document.body.style.overflow = '';
-    if (hamburger) hamburger.classList.remove('active');
-  }
-  if (mobileClose) mobileClose.addEventListener('click', closeMobile);
-  mobileLinks.forEach(function(l){ l.addEventListener('click', closeMobile); });
-
   // ---- GSAP + SCROLLTRIGGER — ALL SECTIONS --------------------------------
   var gsapAnims = [];
   function initGsap() {
@@ -436,44 +417,4 @@ function toggleVisagismo(btn) {
   if (arrow) btn.appendChild(arrow);
 }
 
-// ---- Review Modal Functions ----
-window.openReviewModal = function() {
-  var modal = document.getElementById('reviewModal');
-  if (modal) {
-    modal.style.display = 'flex';
-    // Trigger reflow
-    modal.offsetHeight;
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-};
 
-window.closeReviewModal = function() {
-  var modal = document.getElementById('reviewModal');
-  if (modal) {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-    setTimeout(function() {
-      modal.style.display = 'none';
-    }, 400);
-  }
-};
-
-window.submitReview = function(e) {
-  e.preventDefault();
-  var form = document.getElementById('reviewForm');
-  var success = document.getElementById('reviewSuccess');
-  if (form && success) {
-    form.style.display = 'none';
-    success.style.display = 'block';
-    setTimeout(function() {
-      closeReviewModal();
-      // Reset form after closing
-      setTimeout(function() {
-        form.reset();
-        form.style.display = 'block';
-        success.style.display = 'none';
-      }, 400);
-    }, 2000);
-  }
-};

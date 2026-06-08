@@ -1,3 +1,7 @@
+---
+
+---
+
 <section id="social-proof" class="section-padding">
   <div class="section-bridge top surface-to-dark"></div>
   <div class="container">
@@ -47,7 +51,7 @@
       </div>
       <p class="review-modal-sub">Dejanos tu experiencia</p>
 
-      <form class="review-form" id="reviewForm" onsubmit="submitReview(event)">
+      <form class="review-form" id="reviewForm">
         <div class="form-group">
           <label for="reviewName">Nombre</label>
           <input
@@ -62,7 +66,13 @@
         <div class="form-group">
           <label>Calificación</label>
           <div class="star-rating-input">
-            <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
+            <input
+              type="radio"
+              id="star5"
+              name="rating"
+              value="5"
+              required
+            /><label for="star5">★</label>
             <input type="radio" id="star4" name="rating" value="4" /><label
               for="star4">★</label
             >
@@ -481,8 +491,17 @@
 </style>
 <script>
   import { getReviews, postReview } from "../services/reviewService";
+  import type { Review } from "../services/reviewService";
 
-  function createReviewCardHTML(review) {
+  declare global {
+    interface Window {
+      openReviewModal: () => void;
+      closeReviewModal: () => void;
+      submitReview: (event: Event) => Promise<void>;
+    }
+  }
+
+  function createReviewCardHTML(review: Review) {
     var estrellas = "★".repeat(review.stars) + "☆".repeat(5 - review.stars);
     return (
       '<div class="review-card">' +
@@ -499,7 +518,7 @@
     );
   }
 
-  function renderReviewCards(reviews) {
+  function renderReviewCards(reviews: Review[]) {
     var left = document.getElementById("reviewTrackLeft");
     var right = document.getElementById("reviewTrackRight");
     if (!left || !right) return;
@@ -508,7 +527,7 @@
     var izq = reviews.slice(0, mitad);
     var der = reviews.slice(mitad);
 
-    function armarTrack(arr) {
+    function armarTrack(arr: Review[]) {
       var html = "";
       for (var i = 0; i < arr.length; i++) {
         html += createReviewCardHTML(arr[i]);
@@ -520,10 +539,12 @@
     right.innerHTML = armarTrack(der) + armarTrack(der);
 
     var duracion = Math.max(reviews.length * 5, 10);
+    var l = left;
+    var r = right;
 
     requestAnimationFrame(function () {
-      left.style.animation = "scrollLeft " + duracion + "s linear infinite";
-      right.style.animation = "scrollRight " + duracion + "s linear infinite";
+      l.style.animation = "scrollLeft " + duracion + "s linear infinite";
+      r.style.animation = "scrollRight " + duracion + "s linear infinite";
     });
   }
 
@@ -558,18 +579,18 @@
     loadReviews();
   };
 
-  window.submitReview = async function (event) {
+  window.submitReview = async function (event: Event) {
     event.preventDefault();
 
-    var form = document.getElementById("reviewForm");
-    var nameInput = document.getElementById("reviewName");
-    var ratingInput = form && form.querySelector('input[name="rating"]:checked');
-    var textInput = document.getElementById("reviewText");
-    var submitBtn = form && form.querySelector(".submit-review-btn");
+    var form = document.getElementById("reviewForm") as HTMLFormElement | null;
+    var nameInput = document.getElementById("reviewName") as HTMLInputElement | null;
+    var ratingInput = form && form.querySelector('input[name="rating"]:checked') as HTMLInputElement | null;
+    var textInput = document.getElementById("reviewText") as HTMLTextAreaElement | null;
+    var submitBtn = form && form.querySelector(".submit-review-btn") as HTMLButtonElement | null;
     var errorDiv = document.getElementById("reviewError");
     var errorMsg = document.getElementById("reviewErrorMsg");
 
-    function showError(msg) {
+    function showError(msg: string) {
       if (errorMsg) errorMsg.textContent = msg;
       if (errorDiv) errorDiv.style.display = "";
     }
@@ -615,6 +636,15 @@
     }
   };
 
-  loadReviews();
-  document.addEventListener("astro:page-load", loadReviews);
+  function init() {
+    loadReviews();
+    const form = document.getElementById("reviewForm");
+    if (form) {
+      form.removeEventListener("submit", window.submitReview);
+      form.addEventListener("submit", window.submitReview);
+    }
+  }
+
+  init();
+  document.addEventListener("astro:page-load", init);
 </script>
