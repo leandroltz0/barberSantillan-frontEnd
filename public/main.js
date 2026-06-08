@@ -172,8 +172,8 @@
     function ad(targets, vars) { gsapAnims.push(gsap.from(targets, vars)); }
     var ac = document.querySelector('.about-collage');
     var at = document.querySelector('.about-text');
-    var ap = document.querySelectorAll('.about-collage [class^="collage-ph-"]');
-    var cf = document.querySelector('.collage-frame');
+    var ap = document.querySelectorAll('.about-collage .collage-card');
+    var cf = document.querySelector('.collage-inner');
     if (ap.length) {
       ad(ap, { scrollTrigger: { trigger: ac, start: 'top 82%' }, opacity: 0, y: 40, scale: 0.96, duration: 0.8, stagger: 0.18, ease: 'power3.out' });
       if (cf) ad(cf, { scrollTrigger: { trigger: ac, start: 'top 82%' }, opacity: 0, scale: 0.92, duration: 0.7, delay: 0.1, ease: 'power2.out' });
@@ -394,16 +394,15 @@
   setTimeout(animateHero, 1700);
 
 
+  window.toggleVisagismo = function(btn) {
+    var card = btn.closest('.vf-card');
+    if (!card) return;
+    var expanded = card.classList.toggle('expanded');
+    var arrow = btn.querySelector('.arrow');
+    if (arrow) arrow.textContent = expanded ? '↑' : '↓';
+    btn.textContent = expanded ? 'Ocultar ' : 'Ver cortes ';
+    if (arrow) btn.appendChild(arrow);
+  };
 })();
-
-function toggleVisagismo(btn) {
-  var card = btn.closest('.vf-card');
-  if (!card) return;
-  var expanded = card.classList.toggle('expanded');
-  var arrow = btn.querySelector('.arrow');
-  if (arrow) arrow.textContent = expanded ? '↑' : '↓';
-  btn.textContent = expanded ? 'Ocultar ' : 'Ver cortes ';
-  if (arrow) btn.appendChild(arrow);
-}
 
 

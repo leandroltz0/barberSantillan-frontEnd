@@ -63,8 +63,7 @@ body::after {
 h1,
 h2,
 h3,
-h4,
-.font-serif {
+h4 {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 500;
 }
@@ -108,9 +107,6 @@ h4,
 .section-bridge.top {
   top: -80px;
 }
-.section-bridge.bot {
-  bottom: -80px;
-}
 .section-bridge.dark-to-surface {
   background: linear-gradient(to bottom, var(--bg), var(--surface2));
 }
@@ -135,12 +131,7 @@ h4,
   letter-spacing: 0.15em;
   color: var(--cream);
 }
-.header-logo-underline {
-  width: 60%;
-  height: 1px;
-  background: var(--gold);
-  margin: 2px auto 0;
-}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -225,14 +216,6 @@ h4,
     0 12px 36px rgba(201, 168, 76, 0.35),
     0 0 60px rgba(201, 168, 76, 0.08);
 }
-@keyframes shimmer {
-  0% {
-    left: -150%;
-  }
-  100% {
-    left: 150%;
-  }
-}
 @keyframes fadeUp {
   to {
     opacity: 1;
@@ -269,15 +252,6 @@ h4,
   }
   100% {
     box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-  }
-}
-@keyframes floatPulse {
-  0%,
-  100% {
-    box-shadow: 0 8px 32px rgba(201, 168, 76, 0.12);
-  }
-  50% {
-    box-shadow: 0 12px 48px rgba(201, 168, 76, 0.22);
   }
 }
 @keyframes cortesHint {
