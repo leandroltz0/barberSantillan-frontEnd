@@ -22,8 +22,8 @@
     <div class="container">
       <div class="hero-stat"><div class="hero-stat-num" data-count="500">0+</div><div class="hero-stat-label">Clientes satisfechos</div></div>
       <div class="hero-stat"><div class="hero-stat-num" data-count="1">0</div><div class="hero-stat-label">Barbero experto</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">8AM – 10PM</div><div class="hero-stat-label">Todos los días</div></div>
-      <div class="hero-stat"><div class="hero-stat-num">Moreno</div><div class="hero-stat-label">Buenos Aires</div></div>
+      <div class="hero-stat stat-schedule"><div class="hero-stat-num">8am – 10pm</div><div class="hero-stat-label">Todos los días</div></div>
+      <div class="hero-stat stat-location"><div class="hero-stat-num">Moreno</div><div class="hero-stat-label">Buenos Aires</div></div>
     </div>
   </div>
 </section>
@@ -204,6 +204,20 @@
     text-transform: uppercase;
     color: var(--muted);
     margin-top: 4px;
+  }
+  .hero-stat.stat-schedule {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .stat-schedule .hero-stat-num {
+    font-size: clamp(28px, 5vw, 44px);
+    white-space: nowrap;
+  }
+  .hero-stat.stat-location {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
   @media (min-width: 768px) {
     .hero-stats .container { grid-template-columns: repeat(4, 1fr); }
