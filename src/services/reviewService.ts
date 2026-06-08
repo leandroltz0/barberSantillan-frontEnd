@@ -30,7 +30,7 @@ export async function postReview(comentary: ReviewInput): Promise<Review> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(comentary),
   });
-  const data = await res.json().catch(() => ({}));
+  const data = await res.json();
   if (!res.ok) {
     throw new Error(data.error || `Error ${res.status}: ${res.statusText}`);
   }

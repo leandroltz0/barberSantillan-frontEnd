@@ -1,100 +1,144 @@
 ---
 ---
 <div class="cortes-float" id="cortesFloat">
-  <button class="cortes-float-btn" id="cortesFloatBtn">
-    <span class="cortes-float-btn-ornament"></span>
-    <span class="cortes-float-btn-ornament-br"></span>
-    <span class="cortes-float-btn-inner">
-      <span class="cortes-float-icon"><svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4a1 1 0 0 1 2 0v16a1 1 0 0 1-2 0V4Z"></path><path d="M8 7a4 4 0 0 0-4 4v2a4 4 0 0 0 4 4"></path><path d="M16 7a4 4 0 0 1 4 4v2a4 4 0 0 1-4 4"></path></svg></span>
-      <span class="cortes-float-btn-text">
-        <span>Cortes</span>
-        <span>Ver galería</span>
-      </span>
-    </span>
-  </button>
-  <div class="cortes-float-label">
-    Deslizá para ver
-    <span class="cortes-float-label-line"></span>
+  <div class="cortes-float-label-top">
+    <span>Catálogo</span>
+    <strong>DE CORTES</strong>
+  </div>
+  <div class="cortes-float-main">
+    <button class="cortes-btn-simple" id="cortesFloatBtn" aria-label="Ver Cortes">
+      <i class="ph-thin ph-scissors"></i>
+    </button>
+    <div class="cortes-tooltip">Abrir galería</div>
+  </div>
 </div>
-<style>
+
+<style is:global>
   .cortes-float {
-    position: fixed; bottom: 100px; left: 28px; z-index: 25000;
-    opacity: 0; transform: translateY(20px); pointer-events: none;
-    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23,1,0.32,1);
-    display: flex; align-items: center; gap: 14px;
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    z-index: 25000;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.23,1,0.32,1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
-  .cortes-float.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-  .cortes-float-btn {
-    font-family: "Cormorant Garamond", Georgia, serif; font-size: 13px; font-weight: 600;
-    letter-spacing: 0.22em; text-transform: uppercase; background: transparent;
-    color: var(--gold); padding: 0; border: none; cursor: pointer; position: relative;
-    display: flex; align-items: center; gap: 12px; border-radius: 0; transition: color 0.4s ease;
+  
+  .cortes-float.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
-  .cortes-float-btn:hover { color: #f0ece4; }
-  .cortes-float-btn-inner {
-    position: relative; display: flex; align-items: center; gap: 12px;
-    padding: 16px 32px; background: rgba(201,168,76,0.08);
-    border: 1px solid rgba(201,168,76,0.3); overflow: hidden;
-    transition: border-color 0.4s ease, background 0.4s ease, transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.5s cubic-bezier(0.23,1,0.32,1);
+
+  .cortes-float-label-top {
+    display: flex;
+    flex-direction: column;
+    margin-left: 4px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.8);
+    pointer-events: none;
   }
-  .cortes-float-btn:hover .cortes-float-btn-inner {
-    background: rgba(13,13,13,0.85); border-color: var(--gold);
-    transform: translateY(-3px) scale(1.04);
-    box-shadow: 0 16px 48px rgba(201,168,76,0.25), 0 0 100px rgba(201,168,76,0.08), inset 0 0 30px rgba(201,168,76,0.04);
+
+  .cortes-float-label-top span {
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: -2px;
   }
-  .cortes-float-btn-inner::before {
-    content: ""; position: absolute; inset: -2px;
-    border: 1px solid rgba(201,168,76,0.08); transition: border-color 0.4s ease;
+
+  .cortes-float-label-top strong {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--cream);
   }
-  .cortes-float-btn:hover .cortes-float-btn-inner::before { border-color: rgba(201,168,76,0.25); }
-  .cortes-float-btn-inner::after {
-    content: ""; position: absolute; top: 0; left: -200%; width: 200%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(230,205,130,0.06), transparent);
-    transform: skewX(-25deg); pointer-events: none; transition: left 1.2s cubic-bezier(0.23,1,0.32,1);
+
+  .cortes-float-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
-  .cortes-float-btn:hover .cortes-float-btn-inner::after { left: 200%; }
-  .cortes-float-btn:active .cortes-float-btn-inner { transform: translateY(-1px) scale(0.97); box-shadow: none; }
-  .cortes-float-icon {
-    font-size: 24px; line-height: 1; color: var(--gold);
-    transition: color 0.4s ease, transform 0.5s cubic-bezier(0.23,1,0.32,1);
+  
+  .cortes-btn-simple {
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    min-height: 60px !important;
+    border-radius: 50% !important;
+    background: var(--gold) !important;
+    color: #111 !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(201,168,76,0.3), 0 4px 10px rgba(0,0,0,0.5);
+    transition: transform 0.3s cubic-bezier(0.23,1,0.32,1), box-shadow 0.3s ease, background 0.3s ease;
+    flex-shrink: 0;
   }
-  .cortes-float-btn:hover .cortes-float-icon { color: #f0ece4; transform: rotate(-10deg) scale(1.1); }
-  .cortes-float-btn-text { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
-  .cortes-float-btn-text span:first-child { font-size: 13px; letter-spacing: 0.22em; color: inherit; }
-  .cortes-float-btn-text span:last-child {
-    font-family: "DM Sans", sans-serif; font-size: 8px; font-weight: 400;
-    letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); transition: color 0.4s ease;
+  
+  .cortes-btn-simple:hover {
+    transform: scale(1.06);
+    box-shadow: 0 12px 30px rgba(201,168,76,0.4), 0 6px 15px rgba(0,0,0,0.5);
+    background: #e6c15c !important;
   }
-  .cortes-float-btn:hover .cortes-float-btn-text span:last-child { color: rgba(201,168,76,0.6); }
-  .cortes-float-btn-ornament {
-    position: absolute; top: -1px; left: -1px; width: 12px; height: 12px;
-    border-top: 1px solid var(--gold); border-left: 1px solid var(--gold);
-    opacity: 0; transition: opacity 0.5s ease, width 0.5s ease, height 0.5s ease;
+  
+  .cortes-btn-simple:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 12px rgba(201,168,76,0.2);
   }
-  .cortes-float-btn:hover .cortes-float-btn-ornament { opacity: 1; width: 18px; height: 18px; }
-  .cortes-float-btn-ornament-br {
-    position: absolute; bottom: -1px; right: -1px; width: 12px; height: 12px;
-    border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold);
-    opacity: 0; transition: opacity 0.5s ease, width 0.5s ease, height 0.5s ease;
+  
+  .cortes-btn-simple i {
+    font-size: 32px;
+    line-height: 1;
+    display: block;
+    color: #111;
   }
-  .cortes-float-btn:hover .cortes-float-btn-ornament-br { opacity: 1; width: 18px; height: 18px; }
-  .cortes-float.visible .cortes-float-btn-inner { animation: floatPulse 3s ease-in-out infinite; }
-  .cortes-float-btn:hover .cortes-float-btn-inner { animation: none; }
-  .cortes-float-label {
-    font-family: "DM Sans", sans-serif; font-size: 10px; color: var(--muted);
-    letter-spacing: 0.08em; white-space: nowrap; opacity: 0;
-    transform: translateX(-10px); transition: opacity 0.4s ease 0.15s, transform 0.4s cubic-bezier(0.23,1,0.32,1) 0.15s;
-    pointer-events: none; max-width: 80px; line-height: 1.4; text-align: right;
+
+  .cortes-float.visible .cortes-btn-simple {
+    animation: floatPulseCortes 3s ease-in-out infinite;
   }
-  .cortes-float.visible .cortes-float-label { opacity: 1; transform: translateX(0); }
-  .cortes-float-label-line { display: block; width: 20px; height: 1px; background: rgba(201,168,76,0.25); margin-left: auto; margin-top: 6px; transition: width 0.4s ease 0.15s; }
-  .cortes-float.visible .cortes-float-label-line { width: 40px; }
-  @media (max-width: 767px) {
-    .cortes-float { bottom: 80px; left: 12px; gap: 8px; }
-    .cortes-float-btn-inner { padding: 12px 18px; }
-    .cortes-float-btn-text span:first-child { font-size: 11px; }
-    .cortes-float-icon { font-size: 18px; }
-    .cortes-float-label { display: none; }
+  
+  .cortes-btn-simple:hover {
+    animation: none !important;
+  }
+
+  @keyframes floatPulseCortes {
+    0%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(201,168,76,0.3), 0 4px 10px rgba(0,0,0,0.5); }
+    50% { transform: scale(1.04); box-shadow: 0 12px 30px rgba(201,168,76,0.4), 0 6px 15px rgba(0,0,0,0.5); }
+  }
+
+  .cortes-tooltip {
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background: rgba(30, 30, 30, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 8px 16px;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+
+  .cortes-float:hover .cortes-tooltip {
+    opacity: 1;
+    transform: translateX(0);
   }
 </style>
-</div>

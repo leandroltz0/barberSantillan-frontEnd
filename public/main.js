@@ -17,6 +17,9 @@
   }
 
   function animateHero() {
+    if (window.startHeroCanvasAnimation) {
+      window.startHeroCanvasAnimation();
+    }
     var els = ['heroLabel','heroLine1','heroLine2','heroLine3','heroSub','heroCta','heroStats'];
     els.forEach(function(id, i) {
       var el = document.getElementById(id);
@@ -34,10 +37,7 @@
     var W = 0, H = 0;
     var ANGLE = 35 * Math.PI / 180;
     var COS = Math.cos(ANGLE), SIN = Math.sin(ANGLE);
-    var LINE_DURATION = 3500;
-    var STAGGER = 200;
-    var START_DELAY = 400;
-    var animId = null, allDone = false, lineData = [];
+    var lineData = [];
 
     function resize() {
       var p = c.parentElement;
@@ -84,7 +84,8 @@
         lineData.push({
           x1: ox - diag * COS, y1: oy - diag * SIN,
           x2: ox + diag * COS, y2: oy + diag * SIN,
-          opacity: op, lw: lw
+          opacity: op, lw: lw,
+          p: 0 // Propiedad de progreso para GSAP
         });
       }
       return n;
@@ -92,76 +93,64 @@
 
     function drawLine(d, p) {
       var dx = d.x2 - d.x1, dy = d.y2 - d.y1;
-      var drawn = p;
-      if (drawn < 0.005) return;
+      if (p < 0.005) return;
       var eX = d.x1 + dx * p, eY = d.y1 + dy * p;
 
       ctx.save();
       ctx.beginPath();
       ctx.moveTo(d.x1, d.y1);
       ctx.lineTo(eX, eY);
-      ctx.strokeStyle = 'rgba(220, 190, 80, 0.4)';
-      ctx.lineWidth = 1.2;
-      ctx.shadowColor = 'rgba(220, 190, 80, 0.3)';
-      ctx.shadowBlur = 5;
+      ctx.strokeStyle = 'rgba(220, 190, 80, 0.2)';
+      ctx.lineWidth = 1;
       ctx.lineCap = 'round';
       ctx.stroke();
       ctx.restore();
-
-      // Advancing tip glow
-      if (p < 1 && p > 0.01) {
-        ctx.save();
-        var grd = ctx.createRadialGradient(eX, eY, 0, eX, eY, 22);
-        grd.addColorStop(0, 'rgba(255,235,120,' + (parseFloat(d.opacity) * 0.5) + ')');
-        grd.addColorStop(1, 'rgba(201,168,76,0)');
-        ctx.beginPath();
-        ctx.arc(eX, eY, 22, 0, Math.PI * 2);
-        ctx.fillStyle = grd;
-        ctx.fill();
-        ctx.restore();
-      }
     }
 
     resize();
-    var L = build();
-    var totalLines = L;
+    var totalLines = build();
 
-    function draw(t) {
-      if (!t) t = performance.now();
-      if (!draw.startTime) draw.startTime = t;
-      var elapsed = t - draw.startTime;
+    function drawAll() {
       ctx.clearRect(0, 0, W, H);
-      var active = false;
-
       for (var i = 0; i < totalLines; i++) {
-        var ls = START_DELAY + i * STAGGER;
-        if (elapsed < ls) continue;
-        var p = Math.min(1, (elapsed - ls) / LINE_DURATION);
-        if (p < 1) active = true;
-        drawLine(lineData[i], p);
-      }
-
-      if (active) {
-        animId = requestAnimationFrame(draw);
-      } else if (!allDone) {
-        allDone = true;
-        // One final full draw to ensure crisp lines
-        for (var i = 0; i < totalLines; i++) drawLine(lineData[i], 1);
+        drawLine(lineData[i], lineData[i].p);
       }
     }
 
-    setTimeout(function(){ animId = requestAnimationFrame(draw); }, 300);
+    var canvasTl = null;
+    window.startHeroCanvasAnimation = function() {
+      if (canvasTl) canvasTl.kill();
+      // Ensure GSAP is loaded
+      if (typeof gsap === 'undefined') {
+        drawAll(); // fallback
+        return;
+      }
+      
+      lineData.forEach(function(d) { d.p = 0; });
+      gsap.ticker.add(drawAll);
+      
+      canvasTl = gsap.to(lineData, {
+        p: 1,
+        duration: 6,
+        ease: "power2.inOut",
+        onComplete: function() {
+          gsap.ticker.remove(drawAll);
+          drawAll(); // draw one last time cleanly
+        }
+      });
+    };
 
     var resizeTimer;
     window.addEventListener('resize', function(){
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function(){
-        if (animId) { cancelAnimationFrame(animId); animId = null; }
+        if (canvasTl) canvasTl.kill();
+        if (typeof gsap !== 'undefined') gsap.ticker.remove(drawAll);
         resize();
         totalLines = build();
-        draw.startTime = null;
-        allDone = false;
-        animId = requestAnimationFrame(draw);
+        // Cuando se redimensiona, dibujar todo completo instantáneamente
+        lineData.forEach(function(d) { d.p = 1; });
+        drawAll();
       }, 200);
     });
   })();
