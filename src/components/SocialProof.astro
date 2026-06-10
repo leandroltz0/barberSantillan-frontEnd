@@ -100,6 +100,7 @@
 
         <button type="submit" class="submit-review-btn">Enviar Opinión</button>
       </form>
+      <p id="remainingOpinions" class="review-remaining"></p>
       <div id="reviewError" class="review-success-msg" style="display:none;">
         <p id="reviewErrorMsg" style="color:#dc2626;"></p>
       </div>
@@ -459,6 +460,13 @@
     background: #d4b55e;
     transform: translateY(-2px);
   }
+  .review-remaining {
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    margin: 16px 0 0;
+  }
   .review-success-msg {
     text-align: center;
     padding: 30px 0;
@@ -564,6 +572,16 @@
     loadReviews();
   };
 
+  function updateRemainingUI() {
+    var rem = parseInt(localStorage.getItem('numberOfOpinions') || '0', 10);
+    var el = document.getElementById("remainingOpinions");
+    if (el) {
+      el.textContent = rem > 0
+        ? "Te quedan " + rem + " opiniones por escribir"
+        : "Ya completaste tus 3 opiniones. ¡Gracias!";
+    }
+  }
+
   window.submitReview = async function (event: Event) {
     event.preventDefault();
 
@@ -583,6 +601,12 @@
     var name = (nameInput && nameInput.value.trim()) || "";
     var stars = ratingInput ? parseInt(ratingInput.value) : 0;
     var comentary = (textInput && textInput.value.trim()) || "";
+
+    var rem = parseInt(localStorage.getItem('numberOfOpinions') || '0', 10);
+    if (rem <= 0) {
+      showError("Ya usaste tus 3 opiniones. ¡Gracias!");
+      return;
+    }
 
     if (!name || name.length > 50) {
       showError("El nombre es requerido (máx 50 caracteres)");
@@ -612,6 +636,9 @@
       if (successEl) successEl.style.display = "";
 
       loadReviews();
+      rem = parseInt(localStorage.getItem('numberOfOpinions') || '0', 10) - 1;
+      localStorage.setItem('numberOfOpinions', String(rem));
+      updateRemainingUI();
     } catch (err) {
       showError(
         err instanceof Error ? err.message : "Error al enviar la opinión",
@@ -623,6 +650,10 @@
 
   function init() {
     loadReviews();
+    if (localStorage.getItem('numberOfOpinions') === null) {
+      localStorage.setItem('numberOfOpinions', '3');
+    }
+    updateRemainingUI();
     const form = document.getElementById("reviewForm");
     if (form) {
       form.removeEventListener("submit", window.submitReview);

@@ -9,7 +9,7 @@ export default defineConfig({
   vite: {
     server: {
       proxy: {
-        '/api': 'http://localhost:3000',
+        '/api': 'https://barbersantillan-backend-production.up.railway.app',
       },
     },
   },
