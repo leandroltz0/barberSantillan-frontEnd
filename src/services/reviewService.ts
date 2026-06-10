@@ -13,7 +13,7 @@ export interface ReviewInput {
   comentary: string;
 }
 
-const API = import.meta.env.PUBLIC_API_URL;
+const API = import.meta.env.PUBLIC_API_URL || '';
 
 export async function getReviews(): Promise<Review[]> {
   const res = await fetch(`${API}/api/opiniones`);
