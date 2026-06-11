@@ -100,8 +100,8 @@
       ctx.beginPath();
       ctx.moveTo(d.x1, d.y1);
       ctx.lineTo(eX, eY);
-      ctx.strokeStyle = 'rgba(220, 190, 80, 0.2)';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(220, 190, 80, 0.45)';
+      ctx.lineWidth = 1.8;
       ctx.lineCap = 'round';
       ctx.stroke();
       ctx.restore();
@@ -131,7 +131,7 @@
       
       canvasTl = gsap.to(lineData, {
         p: 1,
-        duration: 6,
+        duration: 3,
         ease: "power2.inOut",
         onComplete: function() {
           gsap.ticker.remove(drawAll);
