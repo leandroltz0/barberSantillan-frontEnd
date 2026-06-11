@@ -1,28 +1,39 @@
 ---
 ---
-<!-- === VISAGISMO OVERLAY (standalone — only on nav click) === -->
+<!-- === VISAGISMO OVERLAY === -->
+<!-- Se muestra al hacer click en "Visagismo" del nav -->
 <div id="visagismoOverlay">
-  <div class="visagismo-overlay-header">
+
+  <!-- Header del overlay: logo + botón cerrar -->
+  <header class="visagismo-overlay-header">
     <div class="header-logo"><img src="/logo.png" alt="Santillán" class="logo-img"></div>
     <button class="visagismo-overlay-close" id="visagismoClose" aria-label="Cerrar">✕</button>
-  </div>
+  </header>
+
+  <!-- Contenido principal scrolleable -->
   <div class="visagismo-content">
-    <div class="visagismo-header">
+
+    <!-- Introducción de la sección -->
+    <header class="visagismo-header">
       <div class="gold-label" style="text-align:left;display:inline-block">VISAGISMO</div>
       <h2 class="visagismo-heading">Trabajamos con la forma de tu rostro.</h2>
       <p class="visagismo-sub">Cada corte es una decisión. Conocé tu tipo de rostro y descubrí qué estilos te favorecen.</p>
-    </div>
+    </header>
+
+    <!-- Grid de cards: un article por cada tipo de rostro -->
     <div class="visagismo-grid" id="visagismoGrid">
-      <div class="vf-card">
-        <div class="vf-card-head">
-          <div class="vf-card-name">Ovalado</div>
-          <div class="vf-feat-label">CARACTERÍSTICAS</div>
-        </div>
-        <div class="vf-card-top">
-          <div class="vf-card-left">
-            <img src="/galeria/formasDeCara/ovalada-removebg-preview.png" alt="Rostro ovalado" loading="lazy" />
-          </div>
-          <div class="vf-card-right">
+
+      <!-- === CARD: OVALADO === -->
+      <article class="vf-card">
+        <header class="vf-card-head">
+          <h3 class="vf-card-name">Ovalado</h3>
+          <span class="vf-feat-label">Características</span>
+        </header>
+        <section class="vf-card-body">
+          <figure class="vf-card-illustration">
+            <img src="/galeria/formasDeCara/ovalada-removebg-preview.png" alt="Ilustración de rostro ovalado" loading="lazy" />
+          </figure>
+          <div class="vf-card-features">
             <ul class="vf-feat-list">
               <li>Proporciones equilibradas</li>
               <li>Pómulos ligeramente marcados</li>
@@ -30,28 +41,32 @@
               <li>Considerado el rostro ideal</li>
             </ul>
           </div>
-        </div>
-        <div class="vf-card-divider"></div>
-        <div class="vf-cut-label">CORTES FAVORECIBLES</div>
-        <div class="vf-cut-desc">La mayoría de los cortes funcionan. Podés experimentar con casi cualquier estilo, desde un buzz cut hasta un quiff o pompadour.</div>
-        <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
-        <div class="vf-expand-content">
-          <div class="vf-expand-grid">
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/ovaldaFoto1.png" alt="Pompadour" loading="lazy" /></div></div>
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/ovalado2.jpg" alt="Quiff" loading="lazy" /></div></div>
+        </section>
+        <hr class="vf-card-divider" />
+        <section class="vf-card-cuts">
+          <span class="vf-cut-label">Cortes favorecibles</span>
+          <p class="vf-cut-desc">La mayoría de los cortes funcionan. Podés experimentar con casi cualquier estilo, desde un buzz cut hasta un quiff o pompadour.</p>
+          <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
+          <div class="vf-expand-content">
+            <div class="vf-expand-grid">
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/ovaldaFoto1.png" alt="Corte Pompadour para rostro ovalado" loading="lazy" /></div></figure>
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/ovalado2.jpg" alt="Corte Quiff para rostro ovalado" loading="lazy" /></div></figure>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="vf-card">
-        <div class="vf-card-head">
-          <div class="vf-card-name">Cuadrado</div>
-          <div class="vf-feat-label">CARACTERÍSTICAS</div>
-        </div>
-        <div class="vf-card-top">
-          <div class="vf-card-left">
-            <img src="/galeria/formasDeCara/cuadrada-removebg-preview.png" alt="Rostro cuadrado" loading="lazy" />
-          </div>
-          <div class="vf-card-right">
+        </section>
+      </article>
+
+      <!-- === CARD: CUADRADO === -->
+      <article class="vf-card">
+        <header class="vf-card-head">
+          <h3 class="vf-card-name">Cuadrado</h3>
+          <span class="vf-feat-label">Características</span>
+        </header>
+        <section class="vf-card-body">
+          <figure class="vf-card-illustration">
+            <img src="/galeria/formasDeCara/cuadrada-removebg-preview.png" alt="Ilustración de rostro cuadrado" loading="lazy" />
+          </figure>
+          <div class="vf-card-features">
             <ul class="vf-feat-list">
               <li>Mandíbula ancha y marcada</li>
               <li>Frente amplia</li>
@@ -59,28 +74,32 @@
               <li>Pómulos no muy resaltantes</li>
             </ul>
           </div>
-        </div>
-        <div class="vf-card-divider"></div>
-        <div class="vf-cut-label">CORTES FAVORECIBLES</div>
-        <div class="vf-cut-desc">Los cortes con volumen arriba y cortos en los costados equilibran la anchura. El Mod Cut y el Taper Fade alto son los mejores aliados.</div>
-        <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
-        <div class="vf-expand-content">
-          <div class="vf-expand-grid">
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/cuadrada1.jpeg" alt="Mod Cut" loading="lazy" /></div></div>
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/cuadrada2.jpeg" alt="Taper Fade" loading="lazy" /></div></div>
+        </section>
+        <hr class="vf-card-divider" />
+        <section class="vf-card-cuts">
+          <span class="vf-cut-label">Cortes favorecibles</span>
+          <p class="vf-cut-desc">Los cortes con volumen arriba y cortos en los costados equilibran la anchura. El Mod Cut y el Taper Fade alto son los mejores aliados.</p>
+          <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
+          <div class="vf-expand-content">
+            <div class="vf-expand-grid">
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/cuadrada1.jpeg" alt="Corte Mod Cut para rostro cuadrado" loading="lazy" /></div></figure>
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/cuadrada2.jpeg" alt="Corte Taper Fade para rostro cuadrado" loading="lazy" /></div></figure>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="vf-card">
-        <div class="vf-card-head">
-          <div class="vf-card-name">Redondo</div>
-          <div class="vf-feat-label">CARACTERÍSTICAS</div>
-        </div>
-        <div class="vf-card-top">
-          <div class="vf-card-left">
-            <img src="/galeria/formasDeCara/redonda-removebg-preview.png" alt="Rostro redondo" loading="lazy" />
-          </div>
-          <div class="vf-card-right">
+        </section>
+      </article>
+
+      <!-- === CARD: REDONDO === -->
+      <article class="vf-card">
+        <header class="vf-card-head">
+          <h3 class="vf-card-name">Redondo</h3>
+          <span class="vf-feat-label">Características</span>
+        </header>
+        <section class="vf-card-body">
+          <figure class="vf-card-illustration">
+            <img src="/galeria/formasDeCara/redonda-removebg-preview.png" alt="Ilustración de rostro redondo" loading="lazy" />
+          </figure>
+          <div class="vf-card-features">
             <ul class="vf-feat-list">
               <li>Cara ancha y sin ángulos</li>
               <li>Mejillas llenas</li>
@@ -88,28 +107,32 @@
               <li>Sin línea de mandíbula definida</li>
             </ul>
           </div>
-        </div>
-        <div class="vf-card-divider"></div>
-        <div class="vf-cut-label">CORTES FAVORECIBLES</div>
-        <div class="vf-cut-desc">Los cortes con altura en el top y fade en los costados alargan visualmente el rostro. Evitar volumen lateral.</div>
-        <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
-        <div class="vf-expand-content">
-          <div class="vf-expand-grid">
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/redonda1.jpeg" alt="Fade Alto" loading="lazy" /></div></div>
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/redonda2.jpeg" alt="Faux Hawk" loading="lazy" /></div></div>
+        </section>
+        <hr class="vf-card-divider" />
+        <section class="vf-card-cuts">
+          <span class="vf-cut-label">Cortes favorecibles</span>
+          <p class="vf-cut-desc">Los cortes con altura en el top y fade en los costados alargan visualmente el rostro. Evitar volumen lateral.</p>
+          <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
+          <div class="vf-expand-content">
+            <div class="vf-expand-grid">
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/redonda1.jpeg" alt="Corte Fade Alto para rostro redondo" loading="lazy" /></div></figure>
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/redonda2.jpeg" alt="Corte Faux Hawk para rostro redondo" loading="lazy" /></div></figure>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="vf-card">
-        <div class="vf-card-head">
-          <div class="vf-card-name">Rectangular</div>
-          <div class="vf-feat-label">CARACTERÍSTICAS</div>
-        </div>
-        <div class="vf-card-top">
-          <div class="vf-card-left">
-            <img src="/galeria/formasDeCara/rectangular-removebg-preview.png" alt="Rostro rectangular" loading="lazy" />
-          </div>
-          <div class="vf-card-right">
+        </section>
+      </article>
+
+      <!-- === CARD: RECTANGULAR === -->
+      <article class="vf-card">
+        <header class="vf-card-head">
+          <h3 class="vf-card-name">Rectangular</h3>
+          <span class="vf-feat-label">Características</span>
+        </header>
+        <section class="vf-card-body">
+          <figure class="vf-card-illustration">
+            <img src="/galeria/formasDeCara/rectangular-removebg-preview.png" alt="Ilustración de rostro rectangular" loading="lazy" />
+          </figure>
+          <div class="vf-card-features">
             <ul class="vf-feat-list">
               <li>Rostro largo y angosto</li>
               <li>Frente y mandíbula alineadas</li>
@@ -117,28 +140,32 @@
               <li>Mentón bien definido</li>
             </ul>
           </div>
-        </div>
-        <div class="vf-card-divider"></div>
-        <div class="vf-cut-label">CORTES FAVORECIBLES</div>
-        <div class="vf-cut-desc">Cortes con volumen en los lados acortan visualmente el rostro. Evitar demasiado alto arriba.</div>
-        <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
-        <div class="vf-expand-content">
-          <div class="vf-expand-grid">
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/rectangular1.jpeg" alt="Texturizado" loading="lazy" /></div></div>
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/rectangular2.jpeg" alt="French Crop" loading="lazy" /></div></div>
+        </section>
+        <hr class="vf-card-divider" />
+        <section class="vf-card-cuts">
+          <span class="vf-cut-label">Cortes favorecibles</span>
+          <p class="vf-cut-desc">Cortes con volumen en los lados acortan visualmente el rostro. Evitar demasiado alto arriba.</p>
+          <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
+          <div class="vf-expand-content">
+            <div class="vf-expand-grid">
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/rectangular1.jpeg" alt="Corte Texturizado para rostro rectangular" loading="lazy" /></div></figure>
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/rectangular2.jpeg" alt="Corte French Crop para rostro rectangular" loading="lazy" /></div></figure>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="vf-card">
-        <div class="vf-card-head">
-          <div class="vf-card-name">Triangular</div>
-          <div class="vf-feat-label">CARACTERÍSTICAS</div>
-        </div>
-        <div class="vf-card-top">
-          <div class="vf-card-left">
-            <img src="/galeria/formasDeCara/pera-removebg-preview.png" alt="Rostro triangular" loading="lazy" />
-          </div>
-          <div class="vf-card-right">
+        </section>
+      </article>
+
+      <!-- === CARD: TRIANGULAR === -->
+      <article class="vf-card">
+        <header class="vf-card-head">
+          <h3 class="vf-card-name">Triangular</h3>
+          <span class="vf-feat-label">Características</span>
+        </header>
+        <section class="vf-card-body">
+          <figure class="vf-card-illustration">
+            <img src="/galeria/formasDeCara/pera-removebg-preview.png" alt="Ilustración de rostro triangular" loading="lazy" />
+          </figure>
+          <div class="vf-card-features">
             <ul class="vf-feat-list">
               <li>Mandíbula más ancha que la frente</li>
               <li>Pómulos prominentes</li>
@@ -146,28 +173,32 @@
               <li>Mentón amplio</li>
             </ul>
           </div>
-        </div>
-        <div class="vf-card-divider"></div>
-        <div class="vf-cut-label">CORTES FAVORECIBLES</div>
-        <div class="vf-cut-desc">Volumen en la parte superior agranda la frente visualmente. Fade en los costados reduce la anchura de la mandíbula.</div>
-        <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
-        <div class="vf-expand-content">
-          <div class="vf-expand-grid">
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/triangular1.jpg" alt="Quiff" loading="lazy" /></div></div>
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/triangular2.jpeg" alt="Pompadour" loading="lazy" /></div></div>
+        </section>
+        <hr class="vf-card-divider" />
+        <section class="vf-card-cuts">
+          <span class="vf-cut-label">Cortes favorecibles</span>
+          <p class="vf-cut-desc">Volumen en la parte superior agranda la frente visualmente. Fade en los costados reduce la anchura de la mandíbula.</p>
+          <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
+          <div class="vf-expand-content">
+            <div class="vf-expand-grid">
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/triangular1.jpg" alt="Corte Quiff para rostro triangular" loading="lazy" /></div></figure>
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/triangular2.jpeg" alt="Corte Pompadour para rostro triangular" loading="lazy" /></div></figure>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="vf-card">
-        <div class="vf-card-head">
-          <div class="vf-card-name">Corazón</div>
-          <div class="vf-feat-label">CARACTERÍSTICAS</div>
-        </div>
-        <div class="vf-card-top">
-          <div class="vf-card-left">
-            <img src="/galeria/formasDeCara/corazon-removebg-preview.png" alt="Rostro corazón" loading="lazy" />
-          </div>
-          <div class="vf-card-right">
+        </section>
+      </article>
+
+      <!-- === CARD: CORAZÓN === -->
+      <article class="vf-card">
+        <header class="vf-card-head">
+          <h3 class="vf-card-name">Corazón</h3>
+          <span class="vf-feat-label">Características</span>
+        </header>
+        <section class="vf-card-body">
+          <figure class="vf-card-illustration">
+            <img src="/galeria/formasDeCara/corazon-removebg-preview.png" alt="Ilustración de rostro corazón" loading="lazy" />
+          </figure>
+          <div class="vf-card-features">
             <ul class="vf-feat-list">
               <li>Frente ancha</li>
               <li>Pómulos altos</li>
@@ -175,27 +206,31 @@
               <li>Mentón en punta</li>
             </ul>
           </div>
-        </div>
-        <div class="vf-card-divider"></div>
-        <div class="vf-cut-label">CORTES FAVORECIBLES</div>
-        <div class="vf-cut-desc">Cortes con volumen en la base y lados agregan amplitud a la mandíbula. Flequillo texturizado suaviza la frente.</div>
-        <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
-        <div class="vf-expand-content">
-          <div class="vf-expand-grid">
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/corazon2.jpeg" alt="Taper" loading="lazy" /></div></div>
+        </section>
+        <hr class="vf-card-divider" />
+        <section class="vf-card-cuts">
+          <span class="vf-cut-label">Cortes favorecibles</span>
+          <p class="vf-cut-desc">Cortes con volumen en la base y lados agregan amplitud a la mandíbula. Flequillo texturizado suaviza la frente.</p>
+          <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
+          <div class="vf-expand-content">
+            <div class="vf-expand-grid">
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/corazon2.jpeg" alt="Corte Taper para rostro corazón" loading="lazy" /></div></figure>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="vf-card">
-        <div class="vf-card-head">
-          <div class="vf-card-name">Diamante</div>
-          <div class="vf-feat-label">CARACTERÍSTICAS</div>
-        </div>
-        <div class="vf-card-top">
-          <div class="vf-card-left">
-            <img src="/galeria/formasDeCara/diamante-removebg-preview.png" alt="Rostro diamante" loading="lazy" />
-          </div>
-          <div class="vf-card-right">
+        </section>
+      </article>
+
+      <!-- === CARD: DIAMANTE === -->
+      <article class="vf-card">
+        <header class="vf-card-head">
+          <h3 class="vf-card-name">Diamante</h3>
+          <span class="vf-feat-label">Características</span>
+        </header>
+        <section class="vf-card-body">
+          <figure class="vf-card-illustration">
+            <img src="/galeria/formasDeCara/diamante-removebg-preview.png" alt="Ilustración de rostro diamante" loading="lazy" />
+          </figure>
+          <div class="vf-card-features">
             <ul class="vf-feat-list">
               <li>Pómulos muy marcados y anchos</li>
               <li>Frente y mandíbula angostas</li>
@@ -203,18 +238,21 @@
               <li>Rostro anguloso</li>
             </ul>
           </div>
-        </div>
-        <div class="vf-card-divider"></div>
-        <div class="vf-cut-label">CORTES FAVORECIBLES</div>
-        <div class="vf-cut-desc">Volumen en frente y mandíbula equilibra los pómulos. Evitar cortes que den más volumen lateral.</div>
-        <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
-        <div class="vf-expand-content">
-          <div class="vf-expand-grid">
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/diamond.jpeg" alt="Ivy League" loading="lazy" /></div></div>
-            <div class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/diamond2.jpeg" alt="Fringe" loading="lazy" /></div></div>
+        </section>
+        <hr class="vf-card-divider" />
+        <section class="vf-card-cuts">
+          <span class="vf-cut-label">Cortes favorecibles</span>
+          <p class="vf-cut-desc">Volumen en frente y mandíbula equilibra los pómulos. Evitar cortes que den más volumen lateral.</p>
+          <button class="vf-expand-btn" onclick="toggleVisagismo(this)">Ver cortes <span class="arrow">↓</span></button>
+          <div class="vf-expand-content">
+            <div class="vf-expand-grid">
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/diamond.jpeg" alt="Corte Ivy League para rostro diamante" loading="lazy" /></div></figure>
+              <figure class="vf-haircut-card"><div class="vf-haircut-img"><img src="/galeria/visagismo/diamond2.jpeg" alt="Corte Fringe para rostro diamante" loading="lazy" /></div></figure>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </article>
+
     </div>
   </div>
 </div>
@@ -274,25 +312,29 @@
   .vf-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
   .vf-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .vf-card-name { font-family: "Cormorant Garamond", Georgia, serif; font-size: 26px; color: var(--cream); font-weight: 500; line-height: 1; padding-left: 60px; margin-top: -10px; }
-  .vf-card-top { display: flex; gap: 28px; align-items: flex-start; }
-  .vf-card-left { width: 30%; flex-shrink: 0; text-align: center; }
-  .vf-card-left img { width: 100%; max-width: 280px; height: auto; display: block; margin: 0 auto; margin-top: 2rem; }
-  .vf-card-right { flex: 1; min-width: 0; }
+  .vf-card-body { display: flex; gap: 20px; align-items: flex-start; }
+  .vf-card-illustration { width: 25%; flex-shrink: 0; text-align: center; margin: 0; }
+  .vf-card-illustration img { width: 100%; max-width: 200px; height: auto; display: block; margin: 0 auto; }
+  .vf-card-features { flex: 1; min-width: 0; max-width: 55%; }
   .vf-feat-label {
     font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 600;
     letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold);
     border-left: 2px solid rgba(201,168,76,0.4); padding-left: 8px;
   }
   @media (min-width: 768px) { .vf-feat-label { font-size: 11px; } }
-  .vf-feat-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
-  @media (min-width: 768px) { .vf-feat-list { gap: 6px; } }
+  .vf-feat-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+  @media (min-width: 768px) { .vf-feat-list { gap: 8px; } }
   .vf-feat-list li {
     font-family: "DM Sans", sans-serif; font-size: 15px; color: var(--cream);
     line-height: 1.75; position: relative; padding-left: 18px; opacity: 0.85;
   }
   @media (min-width: 768px) { .vf-feat-list li { font-size: 17px; padding-left: 22px; } }
   .vf-feat-list li::before { content: "—"; position: absolute; left: 0; color: var(--gold); opacity: 0.7; }
-  .vf-card-divider { width: 100%; height: 1px; background: var(--border-subtle); margin: 20px 0; }
+  /* Divider entre características y cortes */
+  .vf-card-divider {
+    width: 100%; height: 1px; background: var(--border-subtle);
+    margin: 16px 0; border: none;
+  }
   .vf-cut-label {
     font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 600;
     letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold);
@@ -320,8 +362,27 @@
 
   .vf-icon-placeholder { width: 24px; height: 24px; opacity: 0.06; display: block; margin: 0 auto; }
 
+  /* === RESPONSIVE: MOBILE === */
   @media (max-width: 767px) {
-    .vf-card { overflow: visible; }
-    .vf-card-left img { transform: scale(1.3); transform-origin: left center; }
+    .vf-card { overflow: visible; padding: 20px 16px 20px; }
+    .vf-card-body { flex-direction: column; align-items: center; gap: 16px; }
+    .vf-card-illustration { width: 100%; }
+    .vf-card-illustration img { max-width: 160px; transform: none; }
+    .vf-card-features { max-width: 100%; width: 100%; }
+    .vf-card-name { padding-left: 0; margin-top: 0; text-align: center; }
+    .vf-card-head { flex-direction: column; gap: 8px; align-items: flex-start; }
+  }
+
+  /* === RESPONSIVE: TABLET === */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .vf-card-illustration img { max-width: 180px; }
+    .vf-card-body { gap: 16px; }
+  }
+
+  /* === RESPONSIVE: DESKTOP === */
+  @media (min-width: 1025px) {
+    .vf-feat-list li { font-size: 19px; }
+    .vf-feat-list { gap: 14px; }
+    .vf-card-features { padding-top: 2rem; }
   }
 </style>
