@@ -403,6 +403,21 @@
     btn.textContent = expanded ? 'Ocultar ' : 'Ver cortes ';
     if (arrow) btn.appendChild(arrow);
   };
+
+  // Bloquear pinch-zoom en móvil (Safari iOS / Android)
+  if (window.matchMedia('(pointer: coarse)').matches) {
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach(function(type) {
+      document.addEventListener(type, function(e) {
+        e.preventDefault();
+      }, { passive: false });
+    });
+
+    document.addEventListener('touchmove', function(e) {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+  }
 })();
 
 

@@ -1,6 +1,6 @@
 {
   "workbench.colorTheme": "Dark+ (default dark)",
+  "editor.semanticHighlighting.enabled": false,
   "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": "active",
-  "editor.semanticHighlighting.enabled": true
+  "editor.guides.bracketPairs": "active"
 }
