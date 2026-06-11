@@ -1,6 +1,10 @@
 (function(){
   'use strict';
 
+  // Detectar Safari para comportamiento del header
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  if (isSafari) document.body.classList.add('is-safari');
+
   var loader = document.getElementById('loader');
   var loaderLogo = document.getElementById('loaderLogo');
   if (loaderLogo) {
